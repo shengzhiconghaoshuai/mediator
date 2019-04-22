@@ -1,0 +1,245 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+  	<groupId>net.chinacloud.mediator</groupId>
+  	<artifactId>mediator-parent</artifactId>
+  	<version>1.0.0</version>
+  	<relativePath>../mediator-parent/pom.xml</relativePath>
+  </parent>
+  
+  <artifactId>mediator-web</artifactId>
+  <packaging>war</packaging>
+  <name>mediator-web Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+  	<!-- test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <!-- web -->
+    <dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+	</dependency>
+    <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>jsp-api</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>taglibs</groupId>
+        <artifactId>standard</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+    </dependency>
+    <!-- spring -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	</dependency>
+    <!-- cglib asm 相关jar包-->
+    <dependency>
+        <groupId>cglib</groupId>
+        <artifactId>cglib</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.ow2.asm</groupId>
+        <artifactId>asm</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+    </dependency>
+    
+    <!-- mysql驱动 -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <!-- oracle驱动 -->
+   <!--  <dependency>
+	  <groupId>com.oracle</groupId>
+	  <artifactId>ojdbc6</artifactId>
+	</dependency>
+     -->
+    <!-- jms -->
+    <!-- <dependency>
+		<groupId>jms</groupId>
+		<artifactId>jms</artifactId>
+	</dependency> -->
+    
+    <!-- mq -->
+    <dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-all</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-pool</artifactId>
+	</dependency>
+	
+	<!-- ibm sb q -->
+	<!-- <dependency>
+	  <groupId>com.ibm</groupId>
+	  <artifactId>CL3Export</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.ibm</groupId>
+	  <artifactId>CL3Nonexport</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.ibm.mq</groupId>
+	  <artifactId>jms</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.ibm.mq</groupId>
+	  <artifactId>jmqi</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.ibm</groupId>
+	  <artifactId>dhbcore</artifactId>
+	</dependency> -->
+	
+	<!-- jackson -->
+	<dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+    </dependency>
+    	<dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-aspectj</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-ehcache</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-spring</artifactId>
+    </dependency>
+    
+    <!-- mediator -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-dataobjects</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-core</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-businessLogic</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-taobaoPlugin</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-wcsPlugin</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-jingdongPlugin</artifactId>
+    </dependency>
+  <!--   <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-vipvopPlugin</artifactId>
+    </dependency> -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-xhsPlugin</artifactId>
+    </dependency>
+   <!--  <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-vshopPlugin</artifactId>
+    </dependency> -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-kaolaPlugin</artifactId>
+    </dependency>
+    
+  </dependencies>
+  <build>
+    <finalName>mediator-web</finalName>
+    <!-- 资源解析 -->
+    <resources>
+    	<resource>
+    		<directory>src/main/resources</directory>
+    		<filtering>true</filtering>
+    	</resource>
+    </resources>
+  </build>
+  
+  <profiles>
+  	<!-- 测试环境 -->
+  	<!-- <profile>
+  		<id>development</id>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>
+  		<properties>
+  			<db.name>mediator</db.name>
+  			<connection.url>
+  				<![CDATA[jdbc:mysql://10.176.20.34:3306/${db.name}?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]>
+  			</connection.url>
+  			<connection.username>mediator</connection.username>
+  			<connection.password>passw0rd</connection.password>
+  			logback貌似只能指定绝对路径,相对路径是相对于服务器的,貌似没法相对于工程根路径,这点没有log4j好
+  			<log.dir>D:/logs</log.dir>
+  		</properties>
+  	</profile> -->
+  	
+  	<!-- <profile>
+  		<id>development</id>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>
+  		<properties>
+  			<db.name>mediator_goelia</db.name>
+  			<connection.url>
+  				<![CDATA[jdbc:mysql://192.168.1.210:3306/${db.name}?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]>
+  			</connection.url>
+  			<connection.username>root</connection.username>
+  			<connection.password>passw0rd</connection.password>
+  			logback貌似只能指定绝对路径,相对路径是相对于服务器的,貌似没法相对于工程根路径,这点没有log4j好
+  			<log.dir>D:/logs</log.dir>
+  		</properties>
+  	</profile> -->
+  </profiles>
+</project>

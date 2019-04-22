@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="springUtil" class="net.chinacloud.mediator.utils.SpringUtil"/>
+
+	<context:property-placeholder location="classpath:resources.properties"/>
+	
+	<context:component-scan base-package="net.chinacloud.mediator">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basenames">
+    		<list>
+    			<value>classpath:messages</value>
+    		</list>
+    	</property>
+    	<!-- 默认为-1 -->
+    	<property name="cacheSeconds" value="-1"/>
+    	<property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+    
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+    	<!-- 核心线程数,默认为1 -->
+    	<property name="corePoolSize" value="20"/>
+    	<!-- 最大线程数,默认为Integer.MAX_VALUE -->
+    	<property name="maxPoolSize" value="80"/>
+    	<!-- 线程池维护线程所允许的空闲时间,默认为60s -->
+    	<property name="keepAliveSeconds" value="300"/>
+    	<!-- 容纳即将执行的task的队列最大长度,默认为Integer.MAX_VALUE -->
+    	<property name="queueCapacity" value="1200"/>
+    	<!-- 由于超出线程范围和队列容量而使执行被阻塞时所使用的处理程序,线程池对拒绝任务(无线程可用)的处理策略,
+    	目前只支持AbortPolicy、CallerRunsPolicy;默认为后者 -->
+    	<property name="rejectedExecutionHandler">
+    		<bean class="net.chinacloud.mediator.task.PersistiveTaskRejectionHandler"/>
+    	</property>
+    	<!-- 等待所有task执行完再关闭 -->
+    	<property name="waitForTasksToCompleteOnShutdown" value="true"/>
+    	<!-- 关闭前保持task需要的资源10s -->
+    	<property name="awaitTerminationSeconds" value="10"/>
+    </bean>
+    
+    <!-- 通过这种硬编码方式加载各plugin的spring配置文件会导致系统依赖各plugin,因此不采用这种方式 -->
+    <!-- 在web.xml中通过ContextLoaderListener扫描classpath中的*Plugin.xml -->
+    <!-- <import resource="classpath:/taobaoPlugin.xml"/> -->
+    
+    <!-- <bean class="net.chinacloud.mediator.init.PluginInitPostProcessor"/> -->
+    
+    <!-- <bean id="cacheManager" class="net.chinacloud.mediator.cache.guava.GuavaCacheManager">
+    	<property name="caches">
+    		<set>
+    			连接器缓存,name:connector
+    			<bean class="net.chinacloud.mediator.init.connector.cache.ConnectorCache"/>
+    			数据类型转换器缓存,name:dataTranslator
+    			<bean class="net.chinacloud.mediator.init.translator.cache.DataTranslatorCache"/>
+    			业务实现类缓存,name:service
+    			<bean class="net.chinacloud.mediator.service.cache.ServiceCache"/>
+    			task适配器缓存,name:taskAdapter
+    			<bean class="net.chinacloud.mediator.task.cache.TaskAdapterCache"/>
+    			task模板缓存,name:taskTemplate
+    			<bean class="net.chinacloud.mediator.task.cache.TaskTemplateCache"/>
+    			渠道缓存,name:channel
+    			<bean class="net.chinacloud.mediator.system.channel.cache.ChannelCache"/>
+    			应用缓存,name:application
+    			<bean class="net.chinacloud.mediator.system.application.cache.ApplicationCache"/>
+    		</set>
+    	</property>
+    </bean>
+    
+    打开缓存注解支持
+    cache:annotation-driven只会去寻找定义在同一个ApplicationContext下的@Cacheable等缓存注解
+    <cache:annotation-driven cache-manager="cacheManager"/> -->
+    
+    <!-- guava cache -->
+    <import resource="spring-cache-guava.xml"/>
+    
+    <!-- memcache cache -->
+    <!-- <import resource="spring-cache-memcached.xml"/> -->
+    
+    <bean id="abstractClient" abstract="true">
+    	<property name="queueProducer" ref="mSendQueueProducer"/>
+    </bean>
+    
+    <bean id="orderClient" class="net.chinacloud.mediator.translator.ChannelOrderFacadeClient" parent="abstractClient"/>
+    
+    <bean id="refundClient" class="net.chinacloud.mediator.translator.ChannelRefundFacadeClient" parent="abstractClient"/>
+    
+    <bean id="productClient" class="net.chinacloud.mediator.translator.ChannelProductFacadeClient" parent="abstractClient"/>
+    
+    <bean id="exchangeClient" class="net.chinacloud.mediator.translator.ChannelExchangeFacadeClient" parent="abstractClient"/>
+    <!-- 
+    <bean id="vipimportClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPimportdeliverFacadeClient" parent="abstractClient"/>
+    
+    <bean id="vipdeliverClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPdeliverFacadeClient" parent="abstractClient"/>
+    
+    <bean id="vippoClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPpoFacadeClient" parent="abstractClient"/>
+    
+    <bean id="vippickClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPpickFacadeClient" parent="abstractClient"/>
+    
+    <bean id="vipGetInventoryDeductOrdersClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPGetInventoryDeductOrdersClient" parent="abstractClient"/>
+    
+    <bean id="vipOccupiedOrderFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPOccupiedOrderFacadeClient" parent="abstractClient"/>
+    
+    <bean id="vipPoOrdersFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPPoOrdersFacadeClient" parent="abstractClient"/>
+     -->
+    <bean id="registry" class="net.chinacloud.mediator.system.registry.impl.MapRegistry"></bean>
+    
+    <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="104857600" />
+		<property name="maxInMemorySize" value="4096"/>
+	</bean>
+    
+    
+    
+    <!-- task执行效率统计 --><!-- 不支持 -->
+    <!-- <bean id="taskExecutionStaticAspect" class="net.chinacloud.mediator.aop.TaskExecutionStaticAspect"/>
+    <aop:config>
+    	<aop:pointcut expression="execution(* net.chinacloud.mediator..*Task.run())" id="concreateTask"/>
+    	<aop:aspect ref="taskExecutionStaticAspect">
+    		<aop:around method="staticTaskExcution" pointcut-ref="concreateTask"/>
+    	</aop:aspect>
+    </aop:config> -->
+</beans>

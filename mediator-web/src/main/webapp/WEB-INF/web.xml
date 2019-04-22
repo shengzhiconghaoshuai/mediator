@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <!-- spring配置文件 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>
+  		classpath:spring-dao.xml,
+  		classpath:spring-quartz.xml,
+  		classpath:spring-context.xml,
+  		classpath:spring-jms.xml,
+  		<!-- classpath:spring-jms-wmq.xml, -->
+  		classpath:spring-mail.xml,
+  		classpath*:config/*Plugin.xml,
+  		classpath:spring-shiro.xml
+  	</param-value>
+  </context-param>
+  
+  <!-- 检查task为1状态的次数上限 -->
+   <context-param>
+  	<param-name>time</param-name>
+  	<param-value>
+  		10
+  	</param-value>
+  </context-param>
+  
+  <!-- 是否检查task为1状态的开关 -->
+  <context-param>
+  	<param-name>shutdownSwitch</param-name>
+  	<param-value>
+  		true
+  	</param-value>
+  </context-param>
+  
+  
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <listener>
+  	<listener-class>net.chinacloud.mediator.web.listener.ContainerShutdownListener</listener-class>
+  </listener>
+  
+  <!-- 设置servlet编码开始 -->
+  <filter>
+      <filter-name>Set Character Encoding</filter-name>
+      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+      <init-param>
+          <param-name>encoding</param-name>
+          <param-value>UTF-8</param-value>
+      </init-param>
+      <init-param>
+          <param-name>forceEncoding</param-name>
+          <param-value>true</param-value>
+      </init-param>
+  </filter>
+  <filter-mapping>
+      <filter-name>Set Character Encoding</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+   <!-- shiro 安全过滤器 -->
+  <!-- The filter-name matches name of a 'shiroFilter' bean inside applicationContext.xml -->
+  <filter>
+      <filter-name>shiroFilter</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+      <init-param>
+          <param-name>targetFilterLifecycle</param-name>
+          <param-value>true</param-value>
+      </init-param>
+  </filter>
+
+  <!-- Make sure any request you want accessible to Shiro is filtered. /* catches all -->
+  <!-- requests.  Usually this filter mapping is defined first (before all others) to -->
+  <!-- ensure that Shiro works in subsequent filters in the filter chain:             -->
+  <filter-mapping>
+      <filter-name>shiroFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+      <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  
+  <!-- 设置通用数据 -->
+  <filter>
+  	<filter-name>setCommonData</filter-name>
+  	<filter-class>net.chinacloud.mediator.web.filter.SetCommonDataFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>setCommonData</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- WebStatFilter用于采集web-jdbc关联监控的数据 -->
+  <filter>
+    <filter-name>DruidWebStatFilter</filter-name>
+    <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+    <init-param>
+        <param-name>exclusions</param-name>
+        <param-value>/static/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>DruidWebStatFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- druid 监控 -->
+  <servlet>
+      <servlet-name>DruidStatView</servlet-name>
+      <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>DruidStatView</servlet-name>
+      <url-pattern>/system/monitor/druid/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- spring DispatcherServlet -->
+  <servlet>
+  	<servlet-name>spring</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:spring-mvc.xml</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <!-- 将DispatcherServlet映射到/,作为默认的servlet,处理所有请求,包括对静态资源的请求 -->
+  <servlet-mapping>
+  	<servlet-name>spring</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>

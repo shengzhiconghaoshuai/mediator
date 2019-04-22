@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- jdp数据源,alibaba的druid -->
+    <bean id="jdpDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+      <!-- 基本属性 url、user、password -->
+      <property name="url" value="${connection.jdp.url}" />
+      <property name="username" value="${connection.jdp.username}"/>
+      <property name="password" value="${connection.jdp.password}"/>
+
+      <!-- 配置初始化大小、最小、最大 -->
+      <property name="initialSize" value="${druid.initialSize}"/>
+      <property name="minIdle" value="${druid.minIdle}"/> 
+      <property name="maxActive" value="${druid.maxActive}"/>
+
+      <!-- 配置获取连接等待超时的时间 -->
+      <property name="maxWait" value="${druid.maxWait}"/>
+
+      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+      <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+
+      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+      <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+
+      <property name="validationQuery" value="${druid.validationQuery}"/>
+      <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+      <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+      <property name="testOnReturn" value="${druid.testOnReturn}"/>
+
+      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+      <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}"/>
+      <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}"/>
+
+      <!-- 配置监控统计拦截的filters -->
+      <property name="filters" value="${druid.filters}"/>
+      
+      <!-- 开启sql执行日志 -->
+      <property name="proxyFilters">
+          <list>
+              <ref bean="log-filter"/>
+          </list>
+      </property>
+    </bean>
+    
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="statementExecutableSqlLogEnable" value="true" />
+  	</bean>
+  	
+  	<bean id="jdpDao" class="net.chinacloud.mediator.dao.DAO" abstract="true">
+  		<property name="jdbcTemplate" ref="jdpJdbcTemplate"/>
+  	</bean>
+    
+    <!-- jdbc template -->
+    <bean id="jdpJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    	<constructor-arg index="0" ref="jdpDataSource"/>
+    </bean>
+    
+    <!-- jdp dao -->
+    <bean id="orderSyncJdpDao" class="net.chinacloud.mediator.taobao.dao.OrderSyncJdpDao" parent="jdpDao"/>
+    <bean id="refundDao" class="net.chinacloud.mediator.taobao.dao.RefundDao" parent="jdpDao"/>
+    <bean id="productJdpDao" class="net.chinacloud.mediator.taobao.dao.ProductJdpDao" parent="jdpDao"/> 
+    
+    <!-- 主数据源事务配置 -->
+    <!-- 事务管理器 -->
+    <!-- <bean id="jdpTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">    
+	    <property name="dataSource" ref="jdpDataSource"/>  
+	</bean>
+	
+	<tx:advice id="jdpTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="getSyncOrders" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* net.chinacloud.mediator.taobao.service.impl.OrderServiceImpl.getSyncOrders(..))" id="syncOrder"/>
+		<aop:advisor pointcut-ref="syncOrder" advice-ref="jdpTxAdvice"/>
+	</aop:config> -->
+	
+	<bean id="jdpTimeUnit" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="java.util.concurrent.TimeUnit.SECONDS"/>
+	</bean>
+	
+	<bean id="jdpWorkQueue" class="java.util.concurrent.ArrayBlockingQueue">
+		<constructor-arg index="0" value="1000"/>
+	</bean>
+	
+	<bean id="jdpThreadFactory" class="java.util.concurrent.Executors$DefaultThreadFactory"/>
+	
+	<bean id="jdpRejectionHandler" class="net.chinacloud.mediator.task.PersistiveTaskRejectionHandler"/>
+	
+	<!-- jdp方式获取订单数据,由于分页的每页数据会产生一个task,高并发下会堵塞原有的taskExecutor,这里启用单独的线程池运行这种task -->
+	<bean id="jdpThreadPool" class="java.util.concurrent.ThreadPoolExecutor">
+		<!-- corePoolSize -->
+		<constructor-arg index="0" value="5"/>
+		<!-- maximumPoolSize -->
+		<constructor-arg index="1" value="10"/>
+		<!-- keepAliveTime -->
+		<constructor-arg index="2" value="300"/>
+		<!-- unit -->
+		<constructor-arg index="3" ref="jdpTimeUnit"/>
+		<!-- workQueue -->
+		<constructor-arg index="4" ref="jdpWorkQueue"/>
+		<!-- threadFactory -->
+		<constructor-arg index="5" ref="jdpThreadFactory"/>
+		<!-- handler -->
+		<constructor-arg index="6" ref="jdpRejectionHandler"/>
+	</bean>
+</beans>

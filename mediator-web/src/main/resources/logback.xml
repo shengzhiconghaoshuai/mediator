@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextName>mediator</contextName>
+	<jmxConfigurator />
+	
+	<property name="logDir" value="d:/logs"/>
+	
+	<!-- 控制台输出 --> 
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>UTF-8</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">     
+             <!--格式化输出：%d表示日期，%thread表示线程名,%-5level：级别从左显示5个字符宽度,%msg：日志消息,%n是换行符-->   
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class %method %line - %msg%n</pattern>     
+        </layout>     
+	</appender>
+	
+	<!-- trace日志 -->
+	<appender name="trace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/trace.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/trace-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
+	    	<level>DEBUG</level>   
+	      	<onMatch>ACCEPT</onMatch>   
+	      	<onMismatch>DENY</onMismatch>   
+	    </filter>
+	</appender>
+	
+	<!-- info日志 -->
+	<appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/SystemOut.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/SystemOut-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
+	    	<level>INFO</level>   
+	      	<onMatch>ACCEPT</onMatch>   
+	      	<onMismatch>DENY</onMismatch>   
+	    </filter>
+	</appender>
+	
+	<!-- warn及error日志 -->
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/SystemError.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/SystemError-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+	</appender>
+	
+	<!-- 淘宝日志输出 -->
+	<appender name="tbTrace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/TbSystemOut.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/TbSystemOut-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 淘宝日志输出 -->
+	<appender name="jdTrace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/JdSystemOut.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/JdSystemOut-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 统计日志输出 -->
+	<appender name="statics" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logDir}/statics.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${logDir}/statics-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 日志输出级别 -->  
+    <root level="info">     
+        <appender-ref ref="STDOUT"/>
+        <!-- <appender-ref ref="trace"/>
+        <appender-ref ref="info"/>
+    	<appender-ref ref="error"/> -->
+    </root>
+    <logger name="net.chinacloud.mediator" level="debug" additivity="false">
+    	<appender-ref ref="STDOUT"/>
+    	<!-- <appender-ref ref="trace"/>
+    	<appender-ref ref="info"/>
+    	<appender-ref ref="error"/> -->
+    </logger>
+    
+    <logger name="net.chinacloud.mediator.taobao" level="debug" additivity="false">
+    	<appender-ref ref="STDOUT"/>
+    	<!-- <appender-ref ref="tbTrace"/> -->
+    </logger>
+    
+    <logger name="net.chinacloud.mediator.jingdong" level="debug" additivity="false">
+    	<appender-ref ref="STDOUT"/>
+    	<!-- <appender-ref ref="jdTrace"/> -->
+    </logger>
+    
+    <!-- 统计 -->
+    <logger name="taskStatics" level="debug" additivity="false">
+    	<appender-ref ref="STDOUT"/>
+    	<!-- <appender-ref ref="statics"/> -->
+    </logger>
+    
+    <!-- sql执行日志,只能输出未填充参数的sql,不太实用 -->
+    <!-- <logger name="org.springframework.jdbc.core" additivity="false">  
+        <level value="debug" />  
+        日志输出地  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.Connection" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.Statement" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.PreparedStatement" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.ResultSet" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger> -->
+    
+    <!-- 借助druid输出sql执行日志,记录的日志比较丰富,除非必要,否则不建议在生产环境开启 -->
+    <!-- <logger name="druid.sql" level="DEBUG" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.Connection" level="DEBUG" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.DataSource" level="DEBUG" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.ResultSet" level="DEBUG" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger> -->
+	
+	<!-- in the absence of the class attribute, assume ch.qos.logback.core.hook.DelayingShutdownHook -->
+	<configuration debug="true">
+	   <shutdownHook/>
+	</configuration>
+</configuration>

@@ -1,0 +1,311 @@
+<itemRule>
+	<field id="prop_20000" name="品牌" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="Nine West/玖熙" value="31888"/>
+		</options>
+		<default-value>31888</default-value>
+	</field>
+	<field id="prop_13021751" name="货号" type="input">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+	</field>
+	<field id="prop_148380063" name="销售渠道类型" type="singleCheck">
+		<options>
+			<option displayName="商场同款(线上线下都销售)" value="852424991"/>
+			<option displayName="天猫独家(只在天猫销售)" value="852486590"/>
+			<option displayName="纯电商(只在线上销售)" value="852538341"/>
+			<option displayName="纯线下(只在线下O2O销售)" value="852548091"/>
+		</options>
+	</field>
+	<field id="prop_122216586" name="款式" type="singleCheck">
+		<options>
+			<option displayName="其他" value="20213"/>
+			<option displayName="工字型" value="130208"/>
+			<option displayName="裹胸" value="29942"/>
+			<option displayName="挂脖式" value="3226839"/>
+			<option displayName="斜肩" value="20858859"/>
+			<option displayName="背带" value="100343"/>
+			<option displayName="吊带" value="20495"/>
+		</options>
+	</field>
+	<field id="prop_122216562" name="衣长" type="singleCheck">
+		<options>
+			<option displayName="超短" value="6465859"/>
+			<option displayName="短款" value="47502"/>
+			<option displayName="常规" value="3226292"/>
+			<option displayName="中长款" value="44597"/>
+			<option displayName="长款" value="66612"/>
+		</options>
+	</field>
+	<field id="prop_20663" name="领型" type="singleCheck">
+		<options>
+			<option displayName="一字领" value="29917"/>
+			<option displayName="荷叶领" value="9977673"/>
+			<option displayName="POLO领" value="3276127"/>
+			<option displayName="斜领" value="29482962"/>
+			<option displayName="方领" value="29538"/>
+			<option displayName="半开领" value="30066992"/>
+			<option displayName="高领" value="29546"/>
+			<option displayName="双层领" value="3267194"/>
+			<option displayName="海军领" value="57658638"/>
+			<option displayName="堆堆领" value="7486925"/>
+			<option displayName="其他" value="20213"/>
+			<option displayName="娃娃领" value="27316112"/>
+			<option displayName="圆领" value="29447"/>
+			<option displayName="V领" value="29448"/>
+			<option displayName="连帽" value="3267192"/>
+			<option displayName="围巾领" value="28867202"/>
+			<option displayName="半高领" value="29075742"/>
+			<option displayName="立领" value="29541"/>
+			<option displayName="西装领" value="3267189"/>
+			<option displayName="可脱卸帽" value="3267193"/>
+		</options>
+	</field>
+	<field id="prop_31611" name="衣门襟" type="singleCheck">
+		<options>
+			<option displayName="单排扣" value="103454"/>
+			<option displayName="双排扣" value="103453"/>
+			<option displayName="牛角扣" value="3216800"/>
+			<option displayName="拉链" value="115481"/>
+			<option displayName="系带" value="28102"/>
+			<option displayName="暗扣" value="20754689"/>
+			<option displayName="一粒扣" value="112631"/>
+			<option displayName="无扣" value="26486055"/>
+		</options>
+	</field>
+	<field id="prop_20603" name="图案" type="singleCheck">
+		<options>
+			<option displayName="条纹" value="29452"/>
+			<option displayName="格子" value="29453"/>
+			<option displayName="纯色" value="29454"/>
+			<option displayName="植物花卉" value="104170033"/>
+			<option displayName="豹纹" value="3255041"/>
+		</options>
+	</field>
+	<field id="prop_122216588" name="服装款式细节" type="multiCheck">
+		<options>
+			<option displayName="亮丝" value="7573005"/>
+			<option displayName="镶钻" value="3332415"/>
+			<option displayName="铆钉" value="115776"/>
+			<option displayName="露背" value="7600710"/>
+			<option displayName="油漆喷溅" value="141823124"/>
+			<option displayName="手工磨破" value="148585979"/>
+			<option displayName="破洞" value="3267932"/>
+			<option displayName="镂空" value="115771"/>
+			<option displayName="抽褶" value="41118856"/>
+			<option displayName="贴布" value="130845"/>
+			<option displayName="绣花" value="29957"/>
+			<option displayName="链条" value="4015931"/>
+			<option displayName="褶皱" value="112602"/>
+			<option displayName="木耳" value="42536"/>
+			<option displayName="勾花镂空" value="148585986"/>
+			<option displayName="流苏" value="115777"/>
+			<option displayName="口袋" value="3243112"/>
+			<option displayName="荷叶边" value="130316"/>
+			<option displayName="系带" value="28102"/>
+			<option displayName="印花" value="129555"/>
+			<option displayName="拼接" value="9142620"/>
+			<option displayName="螺纹" value="8611558"/>
+			<option displayName="扎花" value="17665110"/>
+			<option displayName="立体装饰" value="32971735"/>
+			<option displayName="不对称" value="7642045"/>
+			<option displayName="蝴蝶结" value="115772"/>
+			<option displayName="植绒" value="3267928"/>
+			<option displayName="绑带" value="3705386"/>
+			<option displayName="扎染" value="5145675"/>
+			<option displayName="钉珠" value="29958"/>
+			<option displayName="明线装饰" value="27436000"/>
+			<option displayName="波浪" value="3424792"/>
+			<option displayName="做旧" value="112597"/>
+			<option displayName="亮片" value="29959"/>
+			<option displayName="背带" value="100343"/>
+			<option displayName="肩章" value="130138"/>
+			<option displayName="纽扣" value="3693451"/>
+			<option displayName="纱网" value="26325697"/>
+			<option displayName="拉链" value="115481"/>
+			<option displayName="乱针修补" value="148585996"/>
+			<option displayName="锈斑处理" value="148585997"/>
+			<option displayName="3D" value="3235817"/>
+			<option displayName="树脂固色" value="148585998"/>
+			<option displayName="蕾丝" value="28386"/>
+			<option displayName="燕尾" value="6061030"/>
+			<option displayName="其它" value="-1"/>
+		</options>
+	</field>
+	<field id="in_prop_122216588" name="服装款式细节" type="input">
+		<rules>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="prop_122216588" value="-1" symbol="not contains"/>
+				</depend-group>
+			</rule>
+		</rules>
+	</field>
+	<field id="prop_20017" name="适用年龄" type="singleCheck">
+		<options>
+			<option displayName="30-34周岁" value="494072162"/>
+			<option displayName="35-39周岁" value="494072164"/>
+			<option displayName="25-29周岁" value="494072160"/>
+			<option displayName="18-24周岁" value="494072158"/>
+			<option displayName="40-49周岁" value="494072166"/>
+			<option displayName="17周岁以下" value="136515180"/>
+		</options>
+	</field>
+	<field id="prop_122216347" name="年份季节" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="2014年冬季" value="379886796"/>
+			<option displayName="2014年夏季" value="379818839"/>
+			<option displayName="2014年春季" value="379930774"/>
+			<option displayName="2014年秋季" value="380120406"/>
+			<option displayName="2015年冬季" value="740132938"/>
+			<option displayName="2015年夏季" value="647672577"/>
+			<option displayName="2015年春季" value="379874864"/>
+			<option displayName="2015年秋季" value="715192583"/>
+			<option displayName="2011年秋季" value="96618833"/>
+			<option displayName="2012年夏季" value="132721297"/>
+			<option displayName="2012年冬季" value="132721335"/>
+			<option displayName="2012年春季" value="132721270"/>
+			<option displayName="2011年夏季" value="96618834"/>
+			<option displayName="2011年春季" value="94386424"/>
+			<option displayName="2011年冬季" value="96618832"/>
+			<option displayName="2012年秋季" value="132721317"/>
+			<option displayName="2013年夏季" value="186026840"/>
+			<option displayName="2013年春季" value="199870733"/>
+			<option displayName="2013年冬季" value="209928863"/>
+			<option displayName="2013年秋季" value="209928864"/>
+		</options>
+	</field>
+	<field id="product_images" name="产品图片" type="complex">
+		<fields>
+			<field id="product_image_0" name="产品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+					<rule name="requiredRule" value="true"/>
+				</rules>
+			</field>
+			<field id="product_image_1" name="产品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="product_image_2" name="产品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="product_image_3" name="产品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="product_image_4" name="产品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="material_prop_149422948" name="材质成分" type="multiComplex">
+		<rules>
+			<rule name="maxInputNumRule" value="5" exProperty="include"/>
+		</rules>
+		<fields>
+			<field id="material_prop_name" name="材质" type="singleCheck">
+				<options>
+					<option displayName="三醋酯纤维(三醋纤)" value="三醋酯纤维(三醋纤)"/>
+					<option displayName="二烯类弹性纤维(橡胶)" value="二烯类弹性纤维(橡胶)"/>
+					<option displayName="亚麻" value="亚麻"/>
+					<option displayName="兔毛" value="兔毛"/>
+					<option displayName="兔绒" value="兔绒"/>
+					<option displayName="再生纤维素纤维" value="再生纤维素纤维"/>
+					<option displayName="大豆蛋白复合纤维" value="大豆蛋白复合纤维"/>
+					<option displayName="大豆蛋白纤维" value="大豆蛋白纤维"/>
+					<option displayName="大麻(汉麻)" value="大麻(汉麻)"/>
+					<option displayName="头层牛皮" value="头层牛皮"/>
+					<option displayName="山羊皮" value="山羊皮"/>
+					<option displayName="山羊绒(羊绒)" value="山羊绒(羊绒)"/>
+					<option displayName="改性聚丙烯腈纤维(改性腈纶)" value="改性聚丙烯腈纤维(改性腈纶)"/>
+					<option displayName="新型聚酯纤维" value="新型聚酯纤维"/>
+					<option displayName="木棉" value="木棉"/>
+					<option displayName="柞蚕丝" value="柞蚕丝"/>
+					<option displayName="桑蚕丝" value="桑蚕丝"/>
+					<option displayName="棉" value="棉"/>
+					<option displayName="海藻纤维" value="海藻纤维"/>
+					<option displayName="牛二层皮" value="牛二层皮"/>
+					<option displayName="牦牛毛" value="牦牛毛"/>
+					<option displayName="牦牛绒" value="牦牛绒"/>
+					<option displayName="猪皮" value="猪皮"/>
+					<option displayName="玻璃纤维" value="玻璃纤维"/>
+					<option displayName="甲克素纤维" value="甲克素纤维"/>
+					<option displayName="石棉(石绵)" value="石棉(石绵)"/>
+					<option displayName="碳纤维" value="碳纤维"/>
+					<option displayName="竹原纤维(竹纤维)" value="竹原纤维(竹纤维)"/>
+					<option displayName="粘胶纤维(粘纤)" value="粘胶纤维(粘纤)"/>
+					<option displayName="绵羊皮" value="绵羊皮"/>
+					<option displayName="羊毛" value="羊毛"/>
+					<option displayName="羊驼毛" value="羊驼毛"/>
+					<option displayName="羊驼绒" value="羊驼绒"/>
+					<option displayName="聚丙烯纤维(丙纶)" value="聚丙烯纤维(丙纶)"/>
+					<option displayName="聚丙烯腈纤维(腈纶)" value="聚丙烯腈纤维(腈纶)"/>
+					<option displayName="聚乙烯纤维(乙纶)" value="聚乙烯纤维(乙纶)"/>
+					<option displayName="聚乙烯醇纤维(维纶)" value="聚乙烯醇纤维(维纶)"/>
+					<option displayName="聚乳酸纤维(PLA)" value="聚乳酸纤维(PLA)"/>
+					<option displayName="聚四氟乙烯纤维(氟纶)" value="聚四氟乙烯纤维(氟纶)"/>
+					<option displayName="聚对苯二甲酸乙二酯(涤纶)" value="聚对苯二甲酸乙二酯(涤纶)"/>
+					<option displayName="聚氨酯弹性纤维(氨纶)" value="聚氨酯弹性纤维(氨纶)"/>
+					<option displayName="聚氯乙烯(氯纶)" value="聚氯乙烯(氯纶)"/>
+					<option displayName="聚烯烃弹性纤维" value="聚烯烃弹性纤维"/>
+					<option displayName="聚苯硫醚纤维(赖顿（Ryton）)" value="聚苯硫醚纤维(赖顿（Ryton）)"/>
+					<option displayName="聚酯纤维" value="聚酯纤维"/>
+					<option displayName="聚酰亚胺纤维" value="聚酰亚胺纤维"/>
+					<option displayName="聚酰胺纤维(锦纶)" value="聚酰胺纤维(锦纶)"/>
+					<option displayName="芳香族聚酰胺纤维(芳纶)" value="芳香族聚酰胺纤维(芳纶)"/>
+					<option displayName="苎麻" value="苎麻"/>
+					<option displayName="莫代尔纤维(莫代尔)" value="莫代尔纤维(莫代尔)"/>
+					<option displayName="莱赛尔纤维(莱赛尔)" value="莱赛尔纤维(莱赛尔)"/>
+					<option displayName="貂毛" value="貂毛"/>
+					<option displayName="超高分子量聚乙烯纤维(高强高模聚乙烯纤维)" value="超高分子量聚乙烯纤维(高强高模聚乙烯纤维)"/>
+					<option displayName="醋酯纤维(醋纤)" value="醋酯纤维(醋纤)"/>
+					<option displayName="金属纤维" value="金属纤维"/>
+					<option displayName="金属镀膜纤维" value="金属镀膜纤维"/>
+					<option displayName="铜氨纤维(铜氨丝)" value="铜氨纤维(铜氨丝)"/>
+					<option displayName="陆禽毛" value="陆禽毛"/>
+					<option displayName="陶瓷纤维" value="陶瓷纤维"/>
+					<option displayName="马毛" value="马毛"/>
+					<option displayName="马海毛" value="马海毛"/>
+					<option displayName="骆驼毛" value="骆驼毛"/>
+					<option displayName="骆驼绒" value="骆驼绒"/>
+					<option displayName="鹿皮" value="鹿皮"/>
+					<option displayName="黄麻" value="黄麻"/>
+					<option displayName="其他" value="其他"/>
+				</options>
+			</field>
+			<field id="material_prop_content" name="含量(%)" type="input">
+				<rules>
+					<rule name="requiredRule" value="true"/>
+					<rule name="disableRule" value="true">
+						<depend-group operator="or">
+							<depend-express fieldId="material_prop_name" value="头层牛皮" symbol="=="/>
+							<depend-express fieldId="material_prop_name" value="山羊皮" symbol="=="/>
+							<depend-express fieldId="material_prop_name" value="牛二层皮" symbol="=="/>
+							<depend-express fieldId="material_prop_name" value="猪皮" symbol="=="/>
+							<depend-express fieldId="material_prop_name" value="绵羊皮" symbol="=="/>
+							<depend-express fieldId="material_prop_name" value="鹿皮" symbol="=="/>
+						</depend-group>
+					</rule>
+					<rule name="valueTypeRule" value="decimal"/>
+					<rule name="regexRule" value="^\d+(\.\d{1,2})?$"/>
+					<rule name="minValueRule" value="0" exProperty="not include"/>
+					<rule name="maxValueRule" value="100" exProperty="include"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+</itemRule>

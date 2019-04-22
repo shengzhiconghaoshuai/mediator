@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 唯品会task适配器 -->
+	<bean id="vopTaskAdapter" class=" net.chinacloud.mediator.vip.vop.task.VopTaskAdapter">
+		<lookup-method name="generatePoListTask" bean="poListTask"/>
+		<lookup-method name="generateCreatePoTask" bean="createPoTask"/>
+		<lookup-method name="generatePostPickTask" bean="postPickTask"/>
+		<lookup-method name="generateCreatedeliverTask" bean="createdeliverTask"/>
+		<lookup-method name="generateImportDeliverDetailTask" bean="importDeliverDetailTask"/>
+		<lookup-method name="generateCreatePickTask" bean="createPickTask"/>
+		<lookup-method name="generateConfirmdeliverTask" bean="confirmdeliverTask"/>
+		<lookup-method name="generateBatchCreatePickTask" bean="batchCreatePickTask"/>
+		<lookup-method name="generateGetInventoryDeductOrdersTask" bean="getInventoryDeductOrdersTask"/>
+		<lookup-method name="generateGetInventoryOccupiedOrdersTask" bean="getInventoryOccupiedOrdersTask"/>
+		<lookup-method name="generateGetPoListTask" bean="getPoListTask"/>
+		<lookup-method name="generateSkuInventoryUpdateTask" bean="skuInventoryUpdateTask"/>
+		<lookup-method name="generateOrderListTask" bean="orderListTask"/>
+		<lookup-method name="generateOrderCreateTask" bean="orderCreateTask"/>
+		<lookup-method name="generateOrderCancelTask" bean="orderCancelTask"/>
+		<lookup-method name="generateResponseOrderStoreTask" bean="responseOrderStoreTask"/>
+		<lookup-method name="generateConfirmStoreDeliveryTask" bean="confirmStoreDeliveryTask"/>
+		<lookup-method name="generateConfirmRefuseResultTask" bean="confirmRefuseResultTask"/>
+		<lookup-method name="generateConfirmReturnResultTask" bean="confirmReturnResultTask"/>
+		<lookup-method name="generateOrderReturnListTask" bean="orderReturnListTask"/>
+	</bean>
+	
+	<bean id="oXOOrderFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelOXOOrderFacadeClient" parent="abstractClient"/>
+	
+</beans>

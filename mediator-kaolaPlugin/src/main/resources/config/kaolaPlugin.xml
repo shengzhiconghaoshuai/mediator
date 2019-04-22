@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	  
+     
+     <!-- kaola task适配器 -->
+	<bean id="kaoLaTaskAdapter" class="net.chinacloud.mediator.kaola.task.KaoLaTaskAdapter">
+		<!-- 订单 -->
+		<lookup-method name="generateKaoLaOrderListTask" bean="kaoLaOrderListTask"/>
+		<lookup-method name="generateOrderCreateTask" bean="orderCreateTask"/>
+		<lookup-method name="generateOrderSuccessTask" bean="orderSuccessTask"/>
+		
+		<!-- 整单退款 -->
+		<lookup-method name="generateRefundWholeCreateTask" bean="refundWholeCreateTask"/>
+		<lookup-method name="generateRefundWholeSuccessTask" bean="refundWholeSuccessTask"/>
+		<lookup-method name="generateRefundWholeClosedTask" bean="refundWholeClosedTask"/>
+		
+		<!-- 退款 -->
+		<lookup-method name="generateKaoLaRefundListTask" bean="kaoLaRefundListTask"/>
+		<lookup-method name="generateKaoLaRefundCreateTask" bean="kaoLaRefundCreateTask"/>
+		<lookup-method name="generateKaoLaRefundSellerRefuseTask" bean="kaoLaRefundSellerRefuseTask"/>
+		<lookup-method name="generateKaoLaRefundSuccessTask" bean="kaoLaRefundSuccessTask"/>
+		<lookup-method name="generateKaoLaRefundClosedTask" bean="kaoLaRefundClosedTask"/>
+		<lookup-method name="generateKaoLaRefundSellerAgreeTask" bean="kaoLaRefundSellerAgreeTask"/>
+		<lookup-method name="generateKaoLaRefundBuyerReturnGoodsTask" bean="kaoLaRefundBuyerReturnGoodsTask"/>
+		
+		<!-- 商品 -->
+		<lookup-method name="generateSkuInventoryUpdateTask" bean="skuInventoryUpdateTask"/>
+		
+		<!-- sku -->
+		<lookup-method name="generateSkuMappingListTask" bean="skuMappingListTask"/>
+		<lookup-method name="generateSaveSkuMappingTask" bean="saveSkuMappingTask"/>
+	</bean>
+	
+	<bean id="kaoLaSkuMappingDao" class="net.chinacloud.mediator.kaola.dao.KaoLaSkuMappingDao" parent="mainDao"/>
+
+     
+     
+</beans>

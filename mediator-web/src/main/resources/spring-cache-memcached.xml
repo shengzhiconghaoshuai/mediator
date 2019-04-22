@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
+		<property name="servers" value="${memcache.url}" />
+		<!-- 默认是TEXT -->
+		<property name="protocol" value="TEXT" />
+		<!-- 默认是ARRAY_MOD -->
+		<property name="locatorType" value="CONSISTENT" />
+		<!-- 默认是2500毫秒 -->
+		<property name="opTimeout" value="1000" />
+	</bean>
+
+    <bean id="memcachedCacheManager" class="net.chinacloud.mediator.cache.memcache.MemcachedCacheManager">
+    	<property name="caches">
+    		<set>
+    			<!-- <bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="connector"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean> -->
+    			
+    			<!-- <bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="dataTranslator"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean> -->
+    			
+    			<!-- <bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="service"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean> -->
+    			
+    			<!-- <bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="taskAdapter"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean> -->
+    			
+    			<bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="taskTemplate"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean>
+    			
+    			<bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="channel"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean>
+    			
+    			<bean class="net.chinacloud.mediator.cache.memcache.MemcachedCache">
+    				<constructor-arg index="0" value="application"/>
+    				<constructor-arg index="1" value="0"/>
+    				<constructor-arg index="2" ref="memcachedClient"/>
+    			</bean>
+    		</set>
+    	</property>
+    </bean>
+    
+    <!-- 打开缓存注解支持 -->
+    <!-- cache:annotation-driven只会去寻找定义在同一个ApplicationContext下的@Cacheable等缓存注解 -->
+    <cache:annotation-driven cache-manager="memcachedCacheManager"/>
+    
+</beans>

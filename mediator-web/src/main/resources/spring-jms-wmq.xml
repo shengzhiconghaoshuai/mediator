@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <!-- 消息接收监听器用于异步接收消息，用这个就不能配receiver了-->
+
+    <bean id="ibmConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"> 
+		<!-- 传输类型1是,你有一个客户端连接,而不是一个代理连接。 	-->
+        <property name="transportType" value="${ibm.transportType}"></property> 
+        <property name="queueManager" value="${ibm.queueManager}"></property> 
+        <property name="hostName" value="${ibm.hostName}"></property> 
+        <property name="port" value="${ibm.port}"></property> 
+        <property name="channel" value="${ibm.channel}"></property> 
+    </bean>
+	
+	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory" >  
+	    <property name="targetConnectionFactory" ref="ibmConnectionFactory" />  
+	    <property name="reconnectOnException" value="true"/>  
+	    <property name="sessionCacheSize" value="30" />  
+	</bean>
+
+    <!-- 接收业务端处理指令,如商品发布、价格库存更新-->
+    <bean id="mCommonReceiveQueue" class="com.ibm.mq.jms.MQQueue">
+      <!-- <constructor-arg value="MEDIATOR_RECEIVE"/> -->
+      <property name="baseQueueName" value="propertyGet"/>
+    </bean>
+    
+    <!-- mediator端jms消息发送至OMS,如订单、退款、退货等消息 -->
+    <bean id="mSendQueue" class="com.ibm.mq.jms.MQQueue">
+      <!-- <constructor-arg value="MEDIATOR_ORDER"/> -->
+      <property name="baseQueueName" value="propertyResponse"/>
+    </bean>
+    
+    <!-- 业务端处理失败,返回消息队列 -->
+    <!-- <bean id="businessErrorQueue" class="com.ibm.mq.jms.MQQueue">
+      <constructor-arg value="MEDIATOR_ORDER"/>
+      <property name="baseQueueName" value="BUSINESS_ERROR_QUEUE"/>
+    </bean> -->
+    
+    <!-- 队列消息生成器 -->
+    <bean id="mSendQueueProducer" class="net.chinacloud.mediator.jms.JMSQueueProducer">
+        <property name="template" ref="mSendTemplate1"/>
+    </bean>
+    <bean id="mSendTemplate1" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="mSendQueue"/>
+        <property name="receiveTimeout" value="60000"/>
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+
+    <!-- 转换消息-->
+    <bean id="wcJMSAdapter" class="net.chinacloud.mediator.wcs.jms.WCMessageAdapter"/>
+
+	<!-- spring管理的bean初始化顺序问题,该类初始化完就会监听消息,此时spring容器可能还没有完全初始化,因此需要尽量延迟的初始化 -->
+	<!-- 正常消息 -->
+    <bean id="pureMDPAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="wcsMessageListener"/>
+        <property name="defaultListenerMethod" value="processJMSMessage"/>
+        <property name="messageConverter" ref="wcJMSAdapter"/>
+    </bean>
+	<bean class="org.springframework.jms.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="mCommonReceiveQueue"/>
+        <property name="messageListener" ref="pureMDPAdapter"/>
+    </bean>
+    
+    <!-- 异常消息,业务处理失败,将task置为失败 -->
+    <!-- <bean id="pureMDPAdapter1" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="wcsMessageListener"/>
+        <property name="defaultListenerMethod" value="processFailureMessage"/>
+        <property name="messageConverter" ref="wcJMSAdapter"/>
+    </bean>
+	<bean class="org.springframework.jms.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="businessErrorQueue"/>
+        <property name="messageListener" ref="pureMDPAdapter1"/>
+    </bean> -->
+</beans>

@@ -1,0 +1,729 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>net.chinacloud.mediator</groupId>
+  <artifactId>mediator-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>mediator-parent</name>
+  <url>http://www.chinacloud.net/index.html</url>
+  
+  <!-- 模块聚合 -->
+  <modules>
+  	<module>../mediator-dataobjects</module>
+  	<module>../mediator-core</module>
+  	<module>../mediator-businessLogic</module>
+    <module>../mediator-taobaoPlugin</module>
+  	<module>../mediator-web</module>
+  	<module>../mediator-wcsPlugin</module>
+  	<module>../mediator-jingdongPlugin</module>
+  	<!--<module>../mediator-vipvopPlugin</module> -->
+  	<module>../mediator-xhsPlugin</module>
+  	<module>../mediator-kaolaPlugin</module>
+  	<!-- <module>../mediator-yintaiPlugin</module>
+  	<module>../mediator-yougouPlugin</module>
+  	<module>../mediator-yhdPlugin</module> -->
+  </modules>
+  
+  <description>多渠道订单管理系统前端子系统,屏蔽渠道的差异性</description>
+  
+  <!-- 目构建环境中的前提条件 -->
+  <prerequisites>
+  	<maven>暂时没有前提条件</maven>
+  </prerequisites>
+  
+  <!-- 问题管理系统 -->
+  <issueManagement>
+  	<system></system>
+  	<url></url>
+  </issueManagement>
+  
+  <!-- 邮件列表 -->
+  <mailingLists>
+  	<mailingList>
+  		<name>ywu</name>
+  		<post>ywu@wuxicloud.com</post>
+  	</mailingList>
+  </mailingLists>
+  
+  <!-- 项目开发人员列表 -->
+  <developers>
+  	<developer>
+  		<id>ywu</id>
+  		<name>ywu</name>
+  		<email>yejunwu123@gmail.com</email>
+  		<roles>
+  			<role>senior software engineer</role>
+  		</roles>
+  		<timezone>8</timezone>
+  	</developer>
+  </developers>
+  
+  <scm>
+  	<connection>scm:svn://10.176.120.50/TaobaoIntegration</connection>
+  	<developerConnection>scm:svn://10.176.120.50/TaobaoIntegration</developerConnection>
+  	<tag>scm:svn://10.176.120.50/TaobaoIntegration</tag>
+  	<url></url>
+  </scm>
+
+  <properties>
+  	<jdk.version>1.7</jdk.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.7</junit.version>
+    <slf4j.version>1.7.5</slf4j.version>
+    <logback.version>1.0.13</logback.version>
+    <fastjson.version>1.1.41</fastjson.version>
+    <spring.version>3.2.5.RELEASE</spring.version>
+    <aspectj.version>1.7.4</aspectj.version>
+    <!-- <taobao.sdk.version>20150518</taobao.sdk.version> -->
+   <!--  <taobao.sdk.version>20170825</taobao.sdk.version> -->
+    <taobao.sdk.version>20180724</taobao.sdk.version>
+    <druid.version>1.0.9</druid.version>
+    <guava.version>17.0</guava.version>
+    <memcached.version>2.11.3</memcached.version>
+    <servlet.version>2.5</servlet.version>
+    <jsp.version>2.2</jsp.version>
+    <jstl.version>1.2</jstl.version>
+    <standard.version>1.1.2</standard.version>
+    <mysql.version>5.1.27</mysql.version>
+    <oracle.version>10.2.0.1.0</oracle.version>
+    <quartz.version>1.8.5</quartz.version>
+    <asm.version>4.0</asm.version>
+    <cglib.version>3.0</cglib.version>
+    <javaee.version>6.0</javaee.version>
+    <jms.version>1.1</jms.version>
+    <activemq.version>5.4.3</activemq.version>
+    <webspheremq.version>1.0.0</webspheremq.version>
+    <osp.sdk.version>2.0.0</osp.sdk.version>
+    <Channel-Integration.version>1.0.2</Channel-Integration.version>
+    <yhd.sdk.version>1.0.0</yhd.sdk.version>
+    <jingdong.sdk.version>2.3</jingdong.sdk.version>
+    <jackson-core-asl.sdk.version>1.0</jackson-core-asl.sdk.version>
+    <jackson-mapper-asl.version>1.0</jackson-mapper-asl.version>
+    <httpclient.version>4.3.6</httpclient.version>
+    <gson.version>2.3.1</gson.version>
+    <jackson.version>2.4.0</jackson.version>
+    <dom4j.version>1.6.1</dom4j.version>
+    <mail.version>1.4</mail.version>
+    <common.io.version>2.3</common.io.version>
+    <commons-lang3.version>3.1</commons-lang3.version>
+    <shiro.version>1.2.2</shiro.version>
+    <top.schema.version>20180724</top.schema.version>
+    <apache.version>3.9</apache.version>
+    <mediator.version>1.0.0</mediator.version>
+    <commons-fileupload.version>1.2.2</commons-fileupload.version>
+    <vshop.version>1.0.0</vshop.version>
+    <xstream.version>1.4.3</xstream.version>
+  </properties>
+
+  <dependencyManagement>
+  	<dependencies>
+  		<!-- 单元测试 -->
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>${junit.version}</version>
+	      <scope>test</scope>
+	    </dependency>
+	    
+	    <!-- 日志相关组件,slf4j + logback -->
+	    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        
+        <!-- fastjson -->
+        <dependency>
+     		<groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>${fastjson.version}</version>
+		</dependency>
+		
+		<!-- jackson -->
+		<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-core</artifactId>
+	        <version>${jackson.version}</version>
+	    </dependency>
+     	<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-annotations</artifactId>
+	        <version>${jackson.version}</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>${jackson.version}</version>
+	    </dependency>
+	    
+	    <!-- freemarker -->
+	    <dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.20</version>
+		</dependency>
+		
+		<!-- data source 相关jar包-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+        
+		<!-- spring -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+		  	<groupId>org.springframework</groupId>
+		  	<artifactId>spring-jms</artifactId>
+		  	<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<!-- aspectj相关jar包-->
+        <!-- <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency> -->
+        
+        <!-- cglib asm 相关jar包-->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
+        
+        <!-- guava -->
+        <dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		
+		<!-- memcached -->
+		<dependency>  
+		    <groupId>net.spy</groupId>  
+		    <artifactId>spymemcached</artifactId>  
+		    <version>${memcached.version}</version>  
+		</dependency>
+		
+		<!-- mail -->
+		<dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${mail.version}</version>
+            <!-- <scope>provided</scope> -->
+        </dependency>
+		
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		
+		<!-- common -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${common.io.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        
+        <dependency>
+   			<groupId>commons-fileupload</groupId>
+   			<artifactId>commons-fileupload</artifactId>
+    		<version>${commons-fileupload.version}</version>
+		</dependency>
+        
+        
+        <!-- 淘宝sdk -->
+        <dependency>
+		  <groupId>com.taobao</groupId>
+		  <!-- <artifactId>taobao-sdk-java-auto_1431932153503</artifactId> -->
+		  <artifactId>taobao-sdk-java-auto</artifactId>
+		  <version>${taobao.sdk.version}</version>
+		</dependency>
+		<!-- top schema -->
+		<dependency>
+ 			 <groupId>com.taobao</groupId>
+  			 <artifactId>top-schema</artifactId>
+ 			 <version>${top.schema.version}</version>
+		</dependency>
+		<!-- 唯品会-sdk -->
+		<!-- <dependency>
+  			<groupId>vipshop</groupId>
+ 			<artifactId>vop-sdk</artifactId>
+  			<version>${vop.sdk.version}</version>
+		</dependency> -->
+		<dependency>
+  			<groupId>vipshop</groupId>
+ 			<artifactId>osp-sdk</artifactId>
+  			<version>${osp.sdk.version}</version>
+		</dependency>
+		<dependency>
+  			<groupId>vipshop</groupId>
+ 			<artifactId>vop-sdk</artifactId>
+  			<version>${osp.sdk.version}</version>
+		</dependency>
+		<dependency>
+  			<groupId>vipshop</groupId>
+ 			<artifactId>vop-sdk-sources</artifactId>
+  			<version>${osp.sdk.version}</version>
+		</dependency>
+		
+		<!-- 一号店sdk -->
+        <dependency>
+		  <groupId>com.yhd</groupId>
+		  <artifactId>yhd-sdk</artifactId>
+		  <version>${yhd.sdk.version}</version>
+		</dependency>
+		
+		<!-- 京东SDK -->
+		<dependency>
+		  <groupId>com.jingdong</groupId>
+		  <artifactId>jingdong-sdk</artifactId>
+		  <version>${jingdong.sdk.version}</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>com.jingdong</groupId>
+  			<artifactId>jackson-core-asl</artifactId>
+ 			 <version>${jackson-core-asl.sdk.version}</version>
+		</dependency>
+
+
+		<dependency>
+ 			 <groupId>com.jingdong</groupId>
+  			 <artifactId>jackson-mapper-asl</artifactId>
+  			 <version>${jackson-mapper-asl.version}</version>
+		</dependency>
+		
+		<!-- web相关jar包 -->
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>${jsp.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${standard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+        <dependency>
+		   	<groupId>javax</groupId>
+		   	<artifactId>javaee-api</artifactId>
+		   	<scope>provided</scope>
+		   	<version>${javaee.version}</version>
+		</dependency>
+		
+		<!-- jms -->
+		<dependency>
+			<groupId>jms</groupId>
+			<artifactId>jms</artifactId>
+			<version>${jms.version}</version>
+		</dependency>
+		
+		<!-- active mq -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>${activemq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+			<version>${activemq.version}</version>
+		</dependency>
+		
+		<!-- ibm sb q -->
+		<!-- <dependency>
+		  <groupId>com.ibm</groupId>
+		  <artifactId>CL3Export</artifactId>
+		  <version>${webspheremq.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.ibm</groupId>
+		  <artifactId>CL3Nonexport</artifactId>
+		  <version>${webspheremq.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.ibm.mq</groupId>
+		  <artifactId>jms</artifactId>
+		  <version>${webspheremq.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.ibm.mq</groupId>
+		  <artifactId>jmqi</artifactId>
+		  <version>${webspheremq.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.ibm</groupId>
+		  <artifactId>dhbcore</artifactId>
+		  <version>${webspheremq.version}</version>
+		</dependency> -->
+        
+        <!-- mysql驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        
+        <!-- oracle -->
+        <!-- <dependency>
+		  <groupId>com.oracle</groupId>
+		  <artifactId>ojdbc6</artifactId>
+		  <version>${oracle.version}</version>
+		</dependency> -->
+        
+        <!-- mediator -->
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-dataobjects</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-core</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-businessLogic</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-b2cPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-taobaoPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+	    	<groupId>net.chinacloud.mediator</groupId>
+	    	<artifactId>mediator-wcsPlugin</artifactId>
+	    	<version>${mediator.version}</version>
+	    </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-jingdongPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-vipvopPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+         <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-vshopPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+         <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-xhsPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+       <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-kaolaPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency> 
+        <dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+        <!-- <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-yhdPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-yintaiPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-yougouPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.chinacloud.mediator</groupId>
+        	<artifactId>mediator-vipvopPlugin</artifactId>
+        	<version>${mediator.version}</version>
+        </dependency> -->
+		<!-- httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<!-- gson -->
+		<dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>${gson.version}</version>
+		</dependency>
+		
+		<!-- vshop -->
+		<dependency>
+			<groupId>net.chinacloud.vshop</groupId>
+			<artifactId>vshop-sdk</artifactId>
+			<version>${vshop.version}</version>
+		</dependency>
+		
+		<!-- apache shiro 相关jar包 -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-aspectj</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        
+        <dependency>
+    		<groupId>org.apache.poi</groupId>
+   			<artifactId>poi</artifactId>
+   			<version>${apache.version}</version>
+		</dependency>
+		
+		<dependency>
+   		 	<groupId>org.apache.poi</groupId>
+    		<artifactId>poi-ooxml</artifactId>
+    		<version>${apache.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>${xstream.version}</version>
+		</dependency>
+		
+		
+  	</dependencies>
+  </dependencyManagement>
+  
+  <build>
+  	<plugins>
+  		<!-- 源码plugin -->
+  		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2</version>
+            <executions>
+            	<execution>
+            		<id>attach-sources</id>
+            		<phase>verify</phase>
+            		<goals>
+            			<goal>jar-no-fork</goal>
+            		</goals>
+            	</execution>
+            </executions>
+        </plugin>
+        <!-- 修改编译版本 -->
+        <plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-compiler-plugin</artifactId>
+        	<version>3.0</version>
+        	<configuration>
+        		<source>${jdk.version}</source>
+        		<target>${jdk.version}</target>
+        		<encoding>${project.build.sourceEncoding}</encoding>
+        	</configuration>
+        </plugin>
+        <!-- war -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+                <warName>mediator-web</warName>
+            </configuration>
+        </plugin>
+        <!-- tomcat plugin -->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>tomcat-maven-plugin</artifactId>
+            <version>1.1</version>
+            <configuration>
+                <path>/</path>
+                <port>8080</port>
+                <uriEncoding>UTF-8</uriEncoding>
+                <url>http://localhost:8080/manager</url>
+                <server>mediator</server>
+                <username>admin</username>
+                <password>passw0rd</password>
+            </configuration>
+        </plugin>
+  	</plugins>
+  </build>
+  
+  <!-- 分发管理,在执行mvn deploy后表示要发布的位置 -->
+  <distributionManagement>
+  	<!-- 发布版本的仓库 -->
+  	<!-- <repository>
+  		<id>mediator-release</id>
+    	<url>http://192.168.1.210:8080/nexus-2.0/content/repositories/mediator-release</url>
+  	</repository> -->
+  	<!-- 快照版本的仓库 -->
+  	<!-- <snapshotRepository>
+	    <id>mediator-snapshots</id>
+	    <url>http://192.168.1.210:8080/nexus-2.0/content/repositories/mediator-snapshots</url>
+	</snapshotRepository> -->
+  </distributionManagement>
+  
+  <!-- <profiles>
+  	<profile>
+  		<id>nexus</id>
+  		<repositories>
+  			<repository>
+  				<id>Public Repositories</id>
+  				<name>Public Repositories</name>
+  				<url>http://192.168.1.210:8080</url>
+  				<snapshots>
+  					<enabled>true</enabled>
+  					<updatePolicy>always</updatePolicy>
+  				</snapshots>
+  				<releases>
+  					<enabled>true</enabled>
+  					<updatePolicy>always</updatePolicy>
+  				</releases>
+  			</repository>
+  		</repositories>
+  		<pluginRepositories>
+  			<pluginRepository>
+  				<id>Public Repositories</id>
+  				<name>Public Repositories</name>
+  				<url>http://192.168.1.210:8080</url>
+  				<snapshots>
+  					<enabled>true</enabled>
+  					<updatePolicy>always</updatePolicy>
+  				</snapshots>
+  				<releases>
+  					<enabled>true</enabled>
+  					<updatePolicy>always</updatePolicy>
+  				</releases>
+  			</pluginRepository>
+  		</pluginRepositories>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>
+  	</profile>
+  </profiles> -->
+</project>

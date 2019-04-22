@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <bean id="guavaCacheManager" class="net.chinacloud.mediator.cache.guava.GuavaCacheManager">
+    	<property name="caches">
+    		<set>
+    			<!-- 连接器缓存,name:connector -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="connector"/>
+    				<constructor-arg index="1" value="20"/>
+    			</bean>
+    			<!-- 数据类型转换器缓存,name:dataTranslator -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="dataTranslator"/>
+    				<constructor-arg index="1" value="10"/>
+    			</bean>
+    			<!-- 业务实现类缓存,name:service -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="service"/>
+    				<constructor-arg index="1" value="20"/>
+    			</bean>
+    			<!-- task适配器缓存,name:taskAdapter -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="taskAdapter"/>
+    				<constructor-arg index="1" value="10"/>
+    			</bean>
+    			<!-- task模板缓存,name:taskTemplate -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="taskTemplate"/>
+    				<constructor-arg index="1" value="70"/>
+    			</bean>
+    			<!-- 渠道缓存,name:channel -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="channel"/>
+    				<constructor-arg index="1" value="10"/>
+    			</bean>
+    			<!-- 应用缓存,name:application -->
+    			<bean class="net.chinacloud.mediator.cache.guava.GuavaCache">
+    				<constructor-arg index="0" value="application"/>
+    				<constructor-arg index="1" value="20"/>
+    			</bean>
+    		</set>
+    	</property>
+    </bean>
+    
+    <!-- 打开缓存注解支持 -->
+    <!-- cache:annotation-driven只会去寻找定义在同一个ApplicationContext下的@Cacheable等缓存注解 -->
+    <cache:annotation-driven cache-manager="guavaCacheManager"/>
+    
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<!-- 集群环境调度器 -->
+	<bean id="clusterScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!--used in cluster env -->
+		<property name="configLocation" value="classpath:quartz.properties"/>
+		<property name="dataSource" ref="dataSource"/>
+		<!--used in cluster env-->
+		<property name="taskExecutor" ref="schedulerThreadPool"/>
+		<!-- 延迟10秒再开始调度 -->
+		<property name="startupDelay" value="10"/>
+		<property name="triggers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 单机环境调度器 -->
+	<bean id="singleScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="taskExecutor" ref="schedulerThreadPool"/>
+		<!-- 延迟10秒再开始调度 -->
+		<property name="startupDelay" value="10"/>
+		<property name="triggers">
+			<list> 
+			</list>
+		</property>
+	</bean>
+	
+	<!--This thread pool is used when deploying on cluster topology -->
+	<bean id="schedulerThreadPool" class="org.springframework.scheduling.quartz.SimpleThreadPoolTaskExecutor">
+		<property name="threadCount" value="10"/>
+		<!-- 线程名称前缀 -->
+		<property name="threadNamePrefix" value="quartz"/>
+		<property name="threadPriority" value="5"/>
+		<property name="threadsInheritContextClassLoaderOfInitializingThread" value="true"/>
+		<property name="waitForJobsToCompleteOnShutdown" value="true"/>
+    </bean>
+</beans>

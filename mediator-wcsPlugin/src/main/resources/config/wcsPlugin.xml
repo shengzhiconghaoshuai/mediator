@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- <bean id="wcsMessageListener" class="net.chinacloud.mediator.wcs.jms.WCSMessageListener"/> -->
+	
+	<bean id="wcsTaskAdapter" class="net.chinacloud.mediator.wcs.task.WCSTaskAdapter">
+		<!-- order -->
+		<lookup-method name="generateOrderDeliverTask" bean="orderDeliverTask"/>
+		<lookup-method name="generateOrderReDeliverTask" bean="orderReDeliverTask"/>
+		<lookup-method name="generateOrderReCreateTask" bean="orderReCreateTask"/>
+		<lookup-method name="generateOrderAllocationNotifiedTask" bean="orderAllocationNotifiedTask"/>
+		<lookup-method name="generateOrderShopAllocationTask" bean="orderShopAllocationTask"/>
+		<lookup-method name="generateOrderShopHandledTask" bean="orderShopHandledTask"/>
+		<lookup-method name="generateQimenEventProduceTask" bean="qimenEventProduceTask"/>
+		
+		<!-- product -->
+		<lookup-method name="generateProductCreateTask" bean="productCreateTask"/>
+		<lookup-method name="generateProductUpdateTask" bean="productUpdateTask"/>
+		<lookup-method name="generateSkuInventoryUpdateWrapperTask" bean="skuInventoryUpdateWrapperTask"/>
+		<lookup-method name="generateProductInventoryUpdateWrapperTask" bean="productInventoryUpdateWrapperTask"/>
+		<lookup-method name="generateProductOnShelfWrapperTask" bean="productOnShelfWrapperTask"/>
+		<lookup-method name="generateProductOffShelfWrapperTask" bean="productOffShelfWrapperTask"/>
+		<lookup-method name="generateProductPriceUpdateTask" bean="productPriceUpdateTask"/>
+		<lookup-method name="generateProductDeliveryTemplatesGetTask" bean="productDeliveryTemplatesGetTask"/>
+		<lookup-method name="generateProductPropertyGetTask" bean="productPropertyGetTask"/>
+		<lookup-method name="generateProductCategoryGetTask" bean="productCategoryGetTask"/>
+		<lookup-method name="generateProductItemStoreBandingTask" bean="productItemStoreBandingTask"/>
+		
+		<!-- system -->
+		<lookup-method name="generateRecoveryServiceTask" bean="recoveryServiceTask"/>
+		<lookup-method name="generatePauseServiceTask" bean="pauseServiceTask"/>
+		
+		<!-- exchange -->
+		<lookup-method name="generateExchangeDeliverTask" bean="exchangeDeliverTask"/>
+		<lookup-method name="generateExchangeAgreeTask" bean="exchangeAgreeTask"/>
+		<lookup-method name="generateExchangeRefuseTask" bean="exchangeRefuseTask"/>
+		<lookup-method name="generateExchangeReturngoodsAgreeTask" bean="exchangeReturngoodsAgreeTask"/>
+		<lookup-method name="generateExchangeReturngoodsRefuseTask" bean="exchangeReturngoodsRefuseTask"/>
+		
+	</bean>
+	
+	<!-- 对于库存同步包装的task,启用单独的线程池去跑 -->
+	<bean id="wcsTimeUnit" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="java.util.concurrent.TimeUnit.SECONDS"/>
+	</bean>
+	
+	<bean id="wcsWorkQueue" class="java.util.concurrent.ArrayBlockingQueue">
+		<constructor-arg index="0" value="2000"/>
+	</bean>
+	
+	<bean id="wcsThreadFactory" class="java.util.concurrent.Executors$DefaultThreadFactory"/>
+	
+	<bean id="wcsRejectionHandler" class="net.chinacloud.mediator.task.PersistiveTaskRejectionHandler"/>
+	
+	<!-- jdp方式获取订单数据,由于分页的每页数据会产生一个task,高并发下会堵塞原有的taskExecutor,这里启用单独的线程池运行这种task -->
+	<bean id="wcsThreadPool" class="java.util.concurrent.ThreadPoolExecutor">
+		<!-- corePoolSize -->
+		<constructor-arg index="0" value="1"/>
+		<!-- maximumPoolSize -->
+		<constructor-arg index="1" value="5"/>
+		<!-- keepAliveTime -->
+		<constructor-arg index="2" value="300"/>
+		<!-- unit -->
+		<constructor-arg index="3" ref="wcsTimeUnit"/>
+		<!-- workQueue -->
+		<constructor-arg index="4" ref="wcsWorkQueue"/>
+		<!-- threadFactory -->
+		<constructor-arg index="5" ref="wcsThreadFactory"/>
+		<!-- handler -->
+		<constructor-arg index="6" ref="wcsRejectionHandler"/>
+	</bean>
+</beans>

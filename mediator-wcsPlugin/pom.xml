@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+  	<groupId>net.chinacloud.mediator</groupId>
+  	<artifactId>mediator-parent</artifactId>
+  	<version>1.0.0</version>
+  	<relativePath>../mediator-parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>mediator-wcsPlugin</artifactId>
+  <packaging>jar</packaging>
+
+  <name>mediator-wcsPlugin</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  	<!-- 单元测试 -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- spring -->
+    <dependency>
+	  	<groupId>org.springframework</groupId>
+	  	<artifactId>spring-jms</artifactId>
+	</dependency>
+	
+	<dependency>
+	   	<groupId>javax</groupId>
+	   	<artifactId>javaee-api</artifactId>
+	</dependency>
+    
+    <!-- mediator -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-dataobjects</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-core</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-businessLogic</artifactId>
+    </dependency>
+ 	<!-- <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-vipvopPlugin</artifactId>
+    </dependency>  -->
+    <!-- <dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-all</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-pool</artifactId>
+	</dependency> -->
+    
+    <!-- wcs -->
+    <!-- <dependency>
+	  <groupId>com.ibm.commerce</groupId>
+	  <artifactId>Channel-Integration</artifactId>
+	</dependency> -->
+  </dependencies>
+</project>

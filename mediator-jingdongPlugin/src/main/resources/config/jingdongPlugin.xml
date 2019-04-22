@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- jd-task适配器 -->
+	 <bean id="jingdongTaskAdapter" class="net.chinacloud.mediator.jingdong.task.JingdongTaskAdapter">
+	 	<!-- 订单 -->
+	 	<lookup-method name="generateOrderListTask" bean="orderListTask"/>
+	 	<lookup-method name="generateOrderSupplementTask" bean="orderSupplementTask"/>
+	 	<lookup-method name="generateOrderCreateTask" bean="orderCreateTask"/> 
+	 	<lookup-method name="generateOrderCancelTask" bean="orderCancelTask"/> 
+	 	<lookup-method name="generateTradeSuccessTask" bean="orderSuccessTask"/> 
+	 	
+	 	<!-- 商品 -->
+		<lookup-method name="generateSkuInventoryUpdateTask" bean="skuInventoryUpdateTask"/>
+		<lookup-method name="generateProductInventoryUpdateTask" bean="productInventoryUpdateTask"/>
+		<lookup-method name="generateProductOnShelfTask" bean="productOnShelfTask"/>
+		<lookup-method name="generateProductOffShelfTask" bean="productOffShelfTask"/>
+		<lookup-method name="generateProductMappingListTask" bean="productMappingListTask"/>
+		<lookup-method name="generateProductMappingTask" bean="productMappingTask"/>
+		
+		<!-- 退款refund -->
+		<lookup-method name="generateRefundWhloleCreateTask" bean="refundWholeCreateTask"/>
+		<lookup-method name="generateRefundListTask" bean="refundListTask"/>
+		<lookup-method name="generateRefundWholeSuccessTask" bean="refundWholeSuccessTask"/>
+		<lookup-method name="generateRefundWholeClosedTask" bean="refundWholeClosedTask"/>
+	 </bean>
+	
+	 <bean id="logisticsMapforJD" class="java.util.HashMap">
+     	<constructor-arg>
+     		<map key-type="java.lang.String" value-type="java.lang.String">
+     			<entry key="SF" value="467"/><!-- 顺风 -->
+     			<entry key="STO" value="470"></entry><!-- 申通 -->
+     			<entry key="EMS" value="465"></entry><!-- EMS -->
+     			<entry key="YTO" value="463"></entry><!-- 圆通 -->
+     			<entry key="JDKY" value="2087"></entry><!-- jdkd -->
+     			<entry key="HTKY" value="1748"></entry><!-- 汇通快运 -->
+     			<entry key="YUNDA" value="1327"></entry><!-- 韵达 -->
+     			<entry key="ZTO" value="1499"></entry><!-- 中通 -->
+     		</map>
+     	</constructor-arg>
+     </bean>
+     
+    <util:set id="JDCode" set-class="java.util.HashSet" value-type="java.lang.String">
+	    <value>65</value> <!-- 平台连接后端服务超时 -->
+	    <value>66</value> <!-- 平台连接后端服务不可用 -->
+	    <value>67</value> <!-- 平台连接后端服务处理过程中出现未知异常信息 -->
+	</util:set>
+     
+     <!-- 京东 dao配置 -->
+     <bean id="jdChannelAttributeMappingDao" class="net.chinacloud.mediator.jingdong.dao.ChannelAttributeMappingDao" parent="mainDao"/>
+</beans>

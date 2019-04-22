@@ -1,0 +1,553 @@
+<itemRule>
+	<field id="infos" name="信息" type="label">
+		<label-group name="">
+			<label-group name="sys_infos">
+				<label name="欢迎" value="欢迎使用Schema新商品发布体系" desc=""/>
+			</label-group>
+			<label-group name="dev_infos">
+				<label name="开发者说明" value="1.此为消息机制，并且本条消息为开发者消息；2.DevInfo类型消息在第三方开发者有UI对客户展示时应主动屏蔽此类消息，比如这条消息不该被非开发者看到；3.新接口接入初期，有任何疑问或者发现Bug请到旺旺群（群号：836280177）交流" desc=""/>
+			</label-group>
+		</label-group>
+	</field>
+	<field id="title" name="商品标题" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="text"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="minLengthRule" value="1" exProperty="include" unit="byte"/>
+			<rule name="maxLengthRule" value="60" exProperty="include" unit="byte"/>
+		</rules>
+	</field>
+	<field id="short_title" name="无线短标题" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="text"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="minLengthRule" value="1" exProperty="include" unit="byte"/>
+			<rule name="maxLengthRule" value="20" exProperty="include" unit="byte"/>
+			<rule name="tipRule" value="品牌+天水测试1111" url="https://img.tbsandbox.com/imgextra/i3/3591953740/TB2GtxXXXXXXXXAXXXXXXXXXXXX_!!3591953740.jpg"/>
+		</rules>
+	</field>
+	<field id="sell_points" name="商品卖点" type="complex">
+		<rules>
+			<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+			<rule name="maxLengthRule" value="20" exProperty="include" unit="character"/>
+			<rule name="tipRule" value="最多5个卖点短语,每个卖点短语最多6个字,总字数不超过20个字"/>
+		</rules>
+		<fields>
+			<field id="sell_point_0" name="商品卖点" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+					<rule name="maxLengthRule" value="6" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+			<field id="sell_point_1" name="商品卖点" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+					<rule name="maxLengthRule" value="6" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+			<field id="sell_point_2" name="商品卖点" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+					<rule name="maxLengthRule" value="6" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+			<field id="sell_point_3" name="商品卖点" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+					<rule name="maxLengthRule" value="6" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+			<field id="sell_point_4" name="商品卖点" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="minLengthRule" value="0" exProperty="include" unit="character"/>
+					<rule name="maxLengthRule" value="6" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="item_status" name="商品状态" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="出售中" value="0"/>
+			<option displayName="定时上架" value="1"/>
+			<option displayName="仓库中" value="2"/>
+		</options>
+		<default-value>0</default-value>
+	</field>
+	<field id="start_time" name="开始时间" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="time"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="item_status" value="1" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+		<default-value>2015-06-27 14:15:36</default-value>
+	</field>
+	<field id="item_type" name="发布类型" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="一口价" value="b"/>
+		</options>
+		<default-value>b</default-value>
+	</field>
+	<field id="stuff_status" name="宝贝类型" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="全新" value="5"/>
+		</options>
+		<default-value>5</default-value>
+	</field>
+	<field id="sub_stock" name="拍下减库存" type="singleCheck">
+		<rules>
+			<rule name="tipRule" value="秒杀商品或超低价抢购促销商品或热卖商品请选择拍下减库存，可以防止超卖情况！" url="http://service.taobao.com/support/knowledge-1110945.htm"/>
+		</rules>
+		<options>
+			<option displayName="是" value="true"/>
+			<option displayName="否" value="false"/>
+		</options>
+		<default-value>false</default-value>
+	</field>
+	<field id="second_kill" name="商品秒杀" type="multiCheck">
+		<rules>
+			<rule name="tipRule" value="若此商品参加秒杀活动，在此期间内必须设为秒杀商品，以防止作弊"/>
+			<rule name="tipRule" value="秒杀商品的商品详情页面将不出现“加入购物车”按钮"/>
+		</rules>
+		<options>
+			<option displayName="电脑用户" value="web"/>
+			<option displayName="手机用户" value="wap"/>
+		</options>
+	</field>
+	<field id="auction_point" name="返点比例" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="decimal"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="regexRule" value="^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(\.[0-9]{0,2})?$"/>
+			<rule name="minValueRule" value="0.5" exProperty="include"/>
+			<rule name="maxValueRule" value="1.5" exProperty="include"/>
+			<rule name="tipRule" value="该类商品的最低返点比例为0.5%，设定的返点比例必须是0.5%的整数倍"/>
+		</rules>
+	</field>
+	<field id="lang" name="商品文字的字符集" type="singleCheck">
+		<options>
+			<option displayName="zh_CN" value="zh_CN"/>
+			<option displayName="zh_HK" value="zh_HK"/>
+		</options>
+	</field>
+	<field id="quantity" name="商品数量" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="integer"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="regexRule" value="^[0-9]*$"/>
+			<rule name="minValueRule" value="0" exProperty="include"/>
+			<rule name="maxValueRule" value="1000000" exProperty="not include"/>
+			<rule name="tipRule" value="请认真填写。无货空挂，可能引起投诉与退款" url="http://bangpai.taobao.com/group/thread/145336-9509231.htm"/>
+		</rules>
+	</field>
+	<field id="price" name="商品价格" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="decimal"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="minValueRule" value="0.00" exProperty="not include"/>
+			<rule name="maxValueRule" value="100000000.00" exProperty="not include"/>
+			<rule name="1301370820_1" value="商品价格必须在销售属性表中所填最高与最低价格范围区间内"/>
+			<rule name="tipRule" value="为避免价格变动引发的违规，请谨慎输入价格。" url="http://rule.tmall.com/tdetail-2695.htm"/>
+		</rules>
+	</field>
+	<field id="barcode" name="条形码" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="text"/>
+			<rule name="tipRule" value="如果规格（如颜色，容量，尺码等）区域已填写条形码，则此处不用填写。"/>
+			<rule name="tipRule" value="请严格按照外包装填写条形码信息。"/>
+		</rules>
+	</field>
+	<field id="has_discount" name="是否支持会员折扣" type="singleCheck">
+		<options>
+			<option displayName="支持会员打折" value="true"/>
+			<option displayName="不支持会员打折" value="false"/>
+		</options>
+		<default-value>false</default-value>
+	</field>
+	<field id="delivery_way" name="提取方式" type="multiCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="邮寄" value="2"/>
+		</options>
+	</field>
+	<field id="locality_life.expirydate" name="有效期" type="singleCheck">
+		<rules>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="delivery_way" value="1" symbol="not contains"/>
+				</depend-group>
+			</rule>
+		</rules>
+		<options>
+			<option displayName="按时间区间" value="1"/>
+			<option displayName="按购买日起时间区间" value="2"/>
+			<option displayName="按购买日起有效天数区间" value="3"/>
+		</options>
+	</field>
+	<field id="locality_life.expirydate.startend" name="有效期按时间区间" type="complex">
+		<rules>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="locality_life.expirydate" value="1" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+		<fields>
+			<field id="locality_life.expirydate.startend.start" name="开始时间" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="date"/>
+				</rules>
+			</field>
+			<field id="locality_life.expirydate.startend.end" name="结束时间" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="date"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="locality_life.expirydate.end" name="有效期按购买日起时间区间" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="date"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="locality_life.expirydate" value="2" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+	</field>
+	<field id="locality_life.expirydate.severalDays" name="有效期按购买日起有效天数区间" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="integer"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="locality_life.expirydate" value="3" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+	</field>
+	<field id="location" name="所在地" type="complex">
+		<fields>
+			<field id="prov" name="省份" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="requiredRule" value="true"/>
+				</rules>
+			</field>
+			<field id="city" name="城市" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="requiredRule" value="true"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="freight_payer" name="运费承担方式" type="singleCheck">
+		<rules>
+			<rule name="tipRule" value="卖家承担运费含货到付款服务费。若只承担快递费请选买家承担运费，并应用快递运费为0的运费模板。"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="delivery_way" value="2" symbol="not contains"/>
+				</depend-group>
+			</rule>
+		</rules>
+		<options>
+			<option displayName="卖家承担运费" value="2"/>
+			<option displayName="买家承担运费" value="1"/>
+		</options>
+		<default-value>1</default-value>
+	</field>
+	<field id="freight_by_buyer" name="买家承担运费" type="singleCheck">
+		<rules>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="freight_payer" value="1" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+		<options>
+			<option displayName="使用运费模板" value="postage"/>
+			<option displayName="设置运费" value="freight_details"/>
+		</options>
+		<default-value>freight_details</default-value>
+	</field>
+	<field id="freight" name="运费" type="complex">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="freight_by_buyer" value="freight_details" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+		<default-complex-values/>
+		<fields>
+			<field id="express_fee" name="快递费用" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="decimal"/>
+				</rules>
+			</field>
+			<field id="post_fee" name="平邮费用" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="decimal"/>
+				</rules>
+			</field>
+			<field id="ems_fee" name="EMS费用" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="decimal"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="postage_id" name="运费模板ID" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="long"/>
+			<rule name="disableRule" value="true">
+				<depend-group operator="and">
+					<depend-express fieldId="freight_by_buyer" value="postage" symbol="!="/>
+				</depend-group>
+			</rule>
+		</rules>
+	</field>
+	<field id="seller_cids" name="商品所属的店铺类目列表" type="multiCheck">
+		<options>
+			<option displayName="女装" value="410187313"/>
+			<option displayName="男装 &gt;&gt; 童装裤子" value="410183860"/>
+			<option displayName="asd" value="410186668"/>
+			<option displayName="【按照功能分类】 &gt;&gt; ◆羽绒上衣             女款" value="410184070"/>
+			<option displayName="【按照品牌分类】 &gt;&gt; 巴伯瑞 品牌" value="410184072"/>
+			<option displayName="店内热销" value="410184073"/>
+		</options>
+	</field>
+	<field id="after_sale_id" name="售后说明模板ID" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="long"/>
+			<rule name="devTipRule" value="请使用taobao.aftersale.get接口获取售后说明模板信息" url="http://api.taobao.com/apidoc/api.htm?path=cid:4-apiId:10448"/>
+		</rules>
+	</field>
+	<field id="has_warranty" name="保修" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="有" value="true"/>
+			<option displayName="无" value="false"/>
+		</options>
+		<default-value>false</default-value>
+	</field>
+	<field id="has_invoice" name="发票" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="有" value="true"/>
+		</options>
+		<default-value>true</default-value>
+	</field>
+	<field id="sell_promise" name="退换货服务" type="singleCheck">
+		<options>
+			<option displayName="是" value="true"/>
+			<option displayName="否" value="false"/>
+		</options>
+		<default-value>true</default-value>
+	</field>
+	<field id="has_showcase" name="橱窗推荐" type="singleCheck">
+		<options>
+			<option displayName="橱窗推荐" value="true"/>
+			<option displayName="橱窗不推荐" value="false"/>
+		</options>
+		<default-value>false</default-value>
+	</field>
+	<field id="outer_id" name="商家外部编码" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="text"/>
+			<rule name="maxLengthRule" value="64" exProperty="include" unit="byte"/>
+		</rules>
+	</field>
+	<field id="description" name="商品描述" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="html"/>
+			<rule name="minLengthRule" value="5" exProperty="include" unit="character"/>
+			<rule name="maxLengthRule" value="25000" exProperty="include" unit="character"/>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+	</field>
+	<field id="item_images" name="商品图片" type="complex">
+		<fields>
+			<field id="item_image_0" name="商品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="item_image_1" name="商品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="item_image_2" name="商品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="item_image_3" name="商品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+			<field id="item_image_4" name="商品图片" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="url"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="wap_desc" name="无线商品描述" type="complex">
+		<rules>
+			<rule name="maxLengthRule" value="5000" exProperty="include" unit="character"/>
+		</rules>
+		<fields>
+			<field id="wap_desc_summary" name="无线商品描述摘要" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="textarea"/>
+					<rule name="maxLengthRule" value="140" exProperty="include" unit="character"/>
+				</rules>
+			</field>
+			<field id="wap_desc_audio" name="无线商品音频描述" type="complex">
+				<fields>
+					<field id="wap_desc_audio_title" name="无线商品描述音频标题" type="input">
+						<rules>
+							<rule name="valueTypeRule" value="text"/>
+						</rules>
+					</field>
+					<field id="wap_desc_audio_url" name="无线商品描述音频文件地址" type="input">
+						<rules>
+							<rule name="valueTypeRule" value="url"/>
+							<rule name="regexRule" value="^.*\.mp3$"/>
+							<rule name="maxInputNumRule" value="1" exProperty="include"/>
+							<rule name="maxTargetSizeRule" value="204800" exProperty="include" unit="byte"/>
+						</rules>
+					</field>
+				</fields>
+			</field>
+			<field id="wap_desc_content" name="无线商品描述内容（文本或图片）" type="multiComplex">
+				<fields>
+					<field id="wap_desc_content_type" name="无线商品描述类型" type="singleCheck">
+						<options>
+							<option displayName="图片" value="image"/>
+							<option displayName="文本" value="text"/>
+						</options>
+					</field>
+					<field id="wap_desc_content_content" name="无线商品描述内容" type="input">
+						<rules>
+							<rule name="valueTypeRule" value="textarea">
+								<depend-group operator="and">
+									<depend-express fieldId="wap_desc_content_type" value="text" symbol="=="/>
+								</depend-group>
+							</rule>
+							<rule name="valueTypeRule" value="url">
+								<depend-group operator="and">
+									<depend-express fieldId="wap_desc_content_type" value="image" symbol="=="/>
+								</depend-group>
+							</rule>
+							<rule name="maxLengthRule" value="500" exProperty="include" unit="character">
+								<depend-group operator="and">
+									<depend-express fieldId="wap_desc_content_type" value="text" symbol="=="/>
+								</depend-group>
+							</rule>
+							<rule name="minImageSizeRule" value="0x480" exProperty="include">
+								<depend-group operator="and">
+									<depend-express fieldId="wap_desc_content_type" value="image" symbol="=="/>
+								</depend-group>
+							</rule>
+							<rule name="maxImageSizeRule" value="960x620" exProperty="include">
+								<depend-group operator="and">
+									<depend-express fieldId="wap_desc_content_type" value="image" symbol="=="/>
+								</depend-group>
+							</rule>
+						</rules>
+					</field>
+				</fields>
+			</field>
+		</fields>
+	</field>
+	<field id="item_size_weight" name="商品物流重量体积" type="complex">
+		<fields>
+			<field id="item_size" name="商品物流体积(立方米)" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+				</rules>
+			</field>
+			<field id="item_weight" name="商品物流重量(千克)" type="input">
+				<rules>
+					<rule name="valueTypeRule" value="text"/>
+					<rule name="regexRule" value="^\d+(\.\d+)?$"/>
+				</rules>
+			</field>
+		</fields>
+	</field>
+	<field id="valid_thru" name="有效期" type="singleCheck">
+		<rules>
+			<rule name="requiredRule" value="true"/>
+		</rules>
+		<options>
+			<option displayName="7天" value="7"/>
+			<option displayName="14天" value="14"/>
+		</options>
+	</field>
+	<field id="is_taobao" name="是否在淘宝和天猫显示" type="singleCheck">
+		<rules>
+			<rule name="tipRule" value="商品如果设置为在淘宝和天猫不显示，在淘宝、天猫的主站和后台均不显示该商品。（不设置默认为显示）"/>
+		</rules>
+		<options>
+			<option displayName="是" value="true"/>
+			<option displayName="否" value="false"/>
+		</options>
+	</field>
+	<field id="is_ex" name="是否在外店显示" type="singleCheck">
+		<options>
+			<option displayName="是" value="true"/>
+			<option displayName="否" value="false"/>
+		</options>
+	</field>
+	<field id="is_3D" name="是否是3D" type="singleCheck">
+		<options>
+			<option displayName="是" value="true"/>
+			<option displayName="否" value="false"/>
+		</options>
+	</field>
+	<field id="service_version" name="天猫系统服务版本" type="input">
+		<rules>
+			<rule name="valueTypeRule" value="long"/>
+			<rule name="requiredRule" value="true"/>
+			<rule name="1331889408_1" value="系统提交的版本号需要和服务端服务版本号一致"/>
+			<rule name="readOnlyRule" value="true"/>
+		</rules>
+		<default-value>11100</default-value>
+	</field>
+	<field id="viewschema_latertopay" name="晚到赔付" type="multiCheck">
+		<rules>
+			<rule name="tipRule" value="查看详情" url="http://mymy.maowo.tmall.com/discussion.htm?id=27912&amp;circleId=59"/>
+		</rules>
+		<options>
+			<option displayName="凡选择了此承诺的商品，须在承诺的时效内送达消费者。" value="3459"/>
+		</options>
+	</field>
+</itemRule>

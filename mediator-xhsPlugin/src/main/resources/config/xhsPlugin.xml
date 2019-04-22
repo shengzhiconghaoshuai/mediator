@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	  
+	 <bean id="logisticsMapforXhs" class="java.util.HashMap">
+     	<constructor-arg>
+     		<map key-type="java.lang.String" value-type="java.lang.String">
+     			<entry key="SF" value="shunfeng"/><!-- 顺风 -->
+     			<entry key="STO" value="shentong"></entry><!-- 申通 -->
+     			<entry key="EMS" value="ems"></entry><!-- EMS -->
+     			<entry key="YTO" value="yuantong"></entry><!-- 圆通 -->
+     			<entry key="ZTO" value="zhongtong"></entry><!-- 中通 -->
+     		</map>
+     	</constructor-arg>
+     </bean>
+     
+     <!-- xhs task适配器 -->
+	<bean id="xhsTaskAdapter" class="net.chinacloud.mediator.xhs.task.XhsTaskAdapter">
+		<!-- 订单 -->
+		<lookup-method name="generateOrderListTask" bean="orderListTask"/>
+		<lookup-method name="generateOrderCreateTask" bean="orderCreateTask"/>
+		<lookup-method name="generateOrderSuccessTask" bean="orderSuccessTask"/>
+		<lookup-method name="generateOrderCancelListTask" bean="orderCancelListTask"/>
+		<lookup-method name="generateOrderCancelTask" bean="orderCancelTask"/>
+		<lookup-method name="generateOrderCancelAuditingTask" bean="orderCancelAuditingTask"/>
+		
+		<!-- 商品 -->
+		<lookup-method name="generateSkuInventoryUpdateTask" bean="skuInventoryUpdateTask"/>
+	</bean>
+     
+     
+</beans>

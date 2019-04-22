@@ -1,0 +1,9 @@
+<!-- system tag library -->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<!-- self defined tag library -->
+<%@taglib prefix="mediator" tagdir="/WEB-INF/tags"%>
+
+<%@taglib prefix="m" uri="http://www.chinacloud.net/tags/mediator-functions"%>

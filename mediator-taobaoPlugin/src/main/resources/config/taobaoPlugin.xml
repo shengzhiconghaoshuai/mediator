@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 淘宝task适配器 -->
+	<bean id="taobaoTaskAdapter" class="net.chinacloud.mediator.taobao.task.TaobaoTaskAdapter">
+		<!-- 订单 -->
+		<lookup-method name="generateOrderListTask" bean="orderListTask"/>
+		<lookup-method name="generateOrderSupplementTask" bean="orderSupplementTask"/>
+		<lookup-method name="generateOrderCreateTask" bean="orderCreateTask"/>
+		<lookup-method name="generateOrderStepPayTask" bean="orderStepPayTask"/>
+		<lookup-method name="generateOrderSellerMemoModifiedTask" bean="orderSellerMemoModifiedTask"/>
+		<lookup-method name="generateOrderSuccessTask" bean="orderSuccessTask"/>
+		<lookup-method name="generateOrderPartlySuccess" bean="orderPartlySuccess"/>
+		<lookup-method name="generateOrderPartlySellerShipTask" bean="orderPartlySellerShipTask"/>
+		<lookup-method name="generateOrderReceiveAddressUpdateTask" bean="orderReceiveAddressUpdateTask"/>
+		<lookup-method name="generateOrderSyncListTask" bean="orderSyncListTask"/>
+		<lookup-method name="generateOrderSyncTask" bean="orderSyncTask"/>
+		<lookup-method name="generateZhengJiOrderListTask" bean="zhengJiOrderListTask"/>
+		<lookup-method name="generateZhengJiOrderSupplementTask" bean="zhengJiOrderSupplementTask"/>
+		<lookup-method name="generateOrderUpdateResponseMsgTask" bean="orderUpdateResponseMsgTask"/>
+		<lookup-method name="generateOrderMsgSendToHoldTask" bean="orderMsgSendToHoldTask"/>
+		<lookup-method name="generateOrderStatusListTask" bean="orderStatusListTask"/>
+		<lookup-method name="generateOrderStatusUpdateTask" bean="orderStatusUpdateTask"/>
+		
+		<!-- 商品 -->
+		<lookup-method name="generateSkuInventoryUpdateTask" bean="skuInventoryUpdateTask"/>
+		<lookup-method name="generateProductInventoryUpdateTask" bean="productInventoryUpdateTask"/>
+		<lookup-method name="generateProductChannelUpShelfTask" bean="productChannelUpShelfTask"/>
+		<lookup-method name="generateProductChannelOffShelfTask" bean="productChannelOffShelfTask"/>
+		<lookup-method name="generateProductOnShelfTask" bean="productOnShelfTask"/>
+		<lookup-method name="generateProductOffShelfTask" bean="productOffShelfTask"/>
+		<lookup-method name="generateProductMappingListTask" bean="productMappingListTask"/>
+		<lookup-method name="generateProductMappingTask" bean="productMappingTask"/>
+		<lookup-method name="generateProductStoreInventoryItemInitialTask" bean="productStoreInventoryItemInitialTask"/>
+		
+		<!-- 退换货 -->
+		<lookup-method name="generateRefundCreateTask" bean="refundCreateTask"/>
+		<lookup-method name="generateRefundUpdateTask" bean="refundUpdateTask"/>
+		<lookup-method name="generateRefundSuccessTask" bean="refundSuccessTask"/>
+		<lookup-method name="generateRefundClosedTask" bean="refundClosedTask"/>
+		<lookup-method name="generateRefundSellerRefuseTask" bean="refundSellerRefuseTask"/>
+		<lookup-method name="generateRefundSellerAgreeTask" bean="refundSellerAgreeTask"/>
+		<lookup-method name="generateRefundSupplementTask" bean="refundSupplementTask"/>
+		<lookup-method name="generateRefundBuyerReturnGoodsTask" bean="refundBuyerReturnGoodsTask"/>
+		<lookup-method name="generateRefundWarehouseUpdateTask" bean="refundWarehouseUpdateTask"/>
+		<lookup-method name="generateRefundSendGoodsCancelTask" bean="refundSendGoodsCancelTask"/>
+		<!-- <lookup-method name="generateRefundListTask" bean="refundListTask"/> -->
+		
+		<!-- exchange -->
+		<lookup-method name="generateExchangeListTask" bean="exchangeListTask"/>
+		<lookup-method name="generateExchangeInfoTask" bean="exchangeInfoTask"/>
+	</bean>
+	
+	<!-- taobao dao配置 -->
+	<bean id="tbChannelAttributeMappingDao" class="net.chinacloud.mediator.taobao.dao.ChannelAttributeMappingDao" parent="mainDao"/>
+    <bean id="productCategoryMappingDao" class="net.chinacloud.mediator.taobao.dao.ProductCategoryMappingDao" parent="mainDao"/>
+    <bean id="orderSyncDao" class="net.chinacloud.mediator.taobao.dao.OrderSyncDao" parent="mainDao"/>
+    <bean id="taobaoChannelAttributeMappingDao" class="net.chinacloud.mediator.taobao.dao.TaobaoChannelAttributeMappingDao" parent="mainDao"/>
+    <bean id="channelPictureMappingDao" class="net.chinacloud.mediator.taobao.dao.ChannelPictureMappingDao" parent="mainDao"/>
+    <bean id="attributeMappingDao" class="net.chinacloud.mediator.taobao.dao.AttributeMappingDao" parent="mainDao"/>
+	<bean id="QueryOrderDao" class="net.chinacloud.mediator.ych.dao.QueryOrderDao" parent="mainDao"/>
+	
+	<!-- 卖家备注旗帜 -->
+	<util:map id="sellerFlag" key-type="java.lang.Long" value-type="java.lang.String" map-class="java.util.HashMap">
+		<entry key="1" value="红"/>
+		<entry key="2" value="黄"/>
+		<entry key="3" value="绿"/>
+		<entry key="4" value="蓝"/>
+		<entry key="5" value="紫"/>
+	</util:map>
+	
+	<!-- 长连接 -->
+<!-- 	<bean class="net.chinacloud.mediator.taobao.notify.ConnectTmallInit" destroy-method="disConnect"/> -->
+	
+	<!-- 数据推送配置 -->
+	<!-- <import resource="classpath:config/taobaoJdpConfig.xml"/>  -->
+	   <!-- <bean id="productJdpDao" class="net.chinacloud.mediator.taobao.dao.ProductJdpDao" parent="mainDao"/>  -->
+	    
+	 <!-- 天猫淘宝平台特有 -->
+	 <bean id="taoBaoAndTmallFacadeClient" class="net.chinacloud.mediator.taobao.client.ChannelTaoBaoAndTmallFacadeClient" parent="abstractClient"/>
+	
+</beans>

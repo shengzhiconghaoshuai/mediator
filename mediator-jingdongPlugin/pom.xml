@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <parent>
+  	<groupId>net.chinacloud.mediator</groupId>
+  	<artifactId>mediator-parent</artifactId>
+  	<version>1.0.0</version>
+  	<relativePath>../mediator-parent/pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mediator-jingdongPlugin</artifactId>
+  <packaging>jar</packaging>
+
+  <name>mediator-jingdongPlugin</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    
+    <!-- 京东sdk -->
+    <dependency>
+	  <groupId>com.jingdong</groupId>
+	  <artifactId>jingdong-sdk</artifactId>
+	</dependency>
+	
+	<dependency>
+  		<groupId>com.jingdong</groupId>
+  		<artifactId>jackson-core-asl</artifactId>
+	</dependency>
+
+	<dependency>
+ 		<groupId>com.jingdong</groupId>
+  		<artifactId>jackson-mapper-asl</artifactId>
+	</dependency>
+	
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+	</dependency>
+    
+    <!-- mediator -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-dataobjects</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-core</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-businessLogic</artifactId>
+    </dependency>
+  </dependencies>
+</project>

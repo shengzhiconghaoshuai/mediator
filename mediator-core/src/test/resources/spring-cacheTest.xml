@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+	  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- proxy-target-class属性值决定是基于接口的还是基于类的代理被创建.如果proxy-target-class属性值被设置为true,
+	那么基于类的代理将起作用(这时需要cglib库).如果proxy-target-class属值被设置为false或者这个属性被省略,那么标准的JDK 
+	基于接口的代理将起作用 -->
+	<cache:annotation-driven cache-manager="cacheManager"/>
+	
+	<bean id="cacheManager" class="net.chinacloud.mediator.cache.guava.GuavaCacheManager">
+    	<property name="caches">
+    		<set>
+    			<!-- task模板缓存,name:taskTemplate -->
+    			<bean class="net.chinacloud.mediator.task.cache.TaskTemplateCache"></bean>
+    			<!-- <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/> -->
+    		</set>
+    	</property>
+    </bean>
+    
+    <!-- <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+      <property name="caches">
+         <set>
+            <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+            	<property name="name" value="taskTemplate"/>
+            </bean>
+         </set>
+      </property>
+   </bean> -->
+    
+    <bean id="cacheService" class="net.chinacloud.mediator.cache.CacheService"></bean>
+</beans>

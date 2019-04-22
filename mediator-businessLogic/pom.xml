@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+  	<groupId>net.chinacloud.mediator</groupId>
+  	<artifactId>mediator-parent</artifactId>
+  	<version>1.0.0</version>
+  	<relativePath>../mediator-parent/pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mediator-businessLogic</artifactId>
+  <packaging>jar</packaging>
+
+  <name>mediator-businessLogic</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+  	<!-- test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <!-- servlet -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+	</dependency>
+    
+    
+    <!-- spring -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+    </dependency>
+    
+    <!-- quartz -->
+    <dependency>
+		<groupId>org.quartz-scheduler</groupId>
+		<artifactId>quartz</artifactId>
+	</dependency>
+    
+    <!-- mediator -->
+    <dependency>
+    	<groupId>net.chinacloud.mediator</groupId>
+    	<artifactId>mediator-core</artifactId>
+    </dependency>
+    
+    <!-- apache poi -->
+    <dependency>
+    	<groupId>org.apache.poi</groupId>
+    	<artifactId>poi</artifactId>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.apache.poi</groupId>
+   		<artifactId>poi-ooxml</artifactId>
+	</dependency>
+	
+	<!-- commons -->
+	<dependency>
+    	<groupId>commons-fileupload</groupId>
+    	<artifactId>commons-fileupload</artifactId>
+	</dependency>
+	
+    
+  </dependencies>
+</project>

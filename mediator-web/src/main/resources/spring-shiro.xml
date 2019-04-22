@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="userRealm" class="org.apache.shiro.realm.UserRealm">
+		<!-- 暂时禁用缓存 -->
+		<property name="authenticationCachingEnabled" value="false"/>
+        <property name="authorizationCachingEnabled" value="false"/>
+	</bean>
+	
+	<!-- session cookie -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<!-- 设置会话id的cookie名字,默认为JSESSIONID -->
+		<constructor-arg index="0" value="${shiro.sid.cookie.name}"/>
+		<!-- cookie对应的域名 -->
+		<property name="domain" value="${shiro.sid.cookie.domain}"/>
+		<!-- cookie存储路径 -->
+		<property name="path" value="${shiro.sid.cookie.path}"/>
+		<!-- 如果设置为true,则服务端不会暴露给客户端脚本代码,使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击;此特性需要实现了Servlet 2.5 MR6及以上版本的规范的Servlet容器支持 -->
+		<property name="httpOnly" value="${shiro.sid.cookie.httpOnly}"/>
+		<!-- 设置cookie有效期 -->
+        <property name="maxAge" value="${shiro.sid.cookie.maxAge}"/>
+	</bean>
+	
+	<!-- remember me cookie -->
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg index="0" value="${shiro.rememberme.cookie.name}"/>
+		<!-- cookie对应的域名 -->
+		<property name="domain" value="${shiro.rememberme.cookie.domain}"/>
+		<!-- cookie存储路径 -->
+		<property name="path" value="${shiro.rememberme.cookie.path}"/>
+    	<property name="httpOnly" value="${shiro.rememberme.cookie.httpOnly}"/>
+    	<!-- 设置cookie有效期 -->
+    	<property name="maxAge" value="${shiro.rememberme.cookie.maxAge}"/>
+	</bean>
+	
+	<!-- 会话创建工厂 -->
+	<bean id="sessionFactory" class="org.apache.shiro.session.mgt.SimpleSessionFactory"/>
+	
+	<!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 全局会话失效时间 ,默认情况下globalSessionTimeout将应用给所有Session-->
+        <property name="globalSessionTimeout" value="${shiro.session.globalSessionTimeout}"></property>
+        
+        <!-- session创建工厂 -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+        
+        <!-- session持久化,暂时不使用 -->
+        <!-- <property name="sessionDAO" ref="onlineSessionDAO"/> -->
+        
+        <!-- 默认是开启的,在会话过期后会调用SessionDAO的delete方法删除会话:如会话时持久化存储的,可以调用此方法进行删除 -->
+        <property name="deleteInvalidSessions" value="false"/>
+
+		<!-- 会话验证调度器,暂时不使用 -->
+        <!-- <property name="sessionValidationInterval" value="${shiro.session.globalSessionTimeout}"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+
+		<!-- 缓存,暂时不使用 -->
+        <!-- <property name="cacheManager" ref="shiroCacheManager"/> -->
+        
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+    </bean>
+    
+    <!-- rememberMe管理器 -->  
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+	    <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
+
+	<!-- securityManager -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
+        <property name="realm" ref="userRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        
+        <!-- 记住我 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 登陆页面url-->
+        <property name="loginUrl" value="${shiro.login.url}"/>
+        <!-- 未授权页面url -->
+        <property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}"/>
+        <!-- 登陆成功跳转url -->
+        <property name="successUrl" value="${shiro.login.success.url}"/>
+        <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
+        <!-- defined will be automatically acquired and available via its beanName in chain        -->
+        <!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="logout" value-ref="logoutFilter"/>
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /static/** = anon
+                /favicon.ico = anon
+                /logout = logout
+                /login = authc
+                /** = anon
+            </value>
+        </property>
+    </bean>
+    
+    <!-- 权限验证过滤器 -->
+    <!-- 基于form表单的身份验证过滤器 -->
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.CustomFormAuthenticationFilter">
+    	<!-- 表单用户名参数名称 -->
+    	<property name="usernameParam" value="userName"/>
+    	<!-- 表单密码参数名称 -->
+    	<property name="passwordParam" value="password"/>
+    	<!-- remember me 参数名称 -->
+    	<property name="rememberMeParam" value="rememberMe"/>
+    </bean>
+    
+    <!-- 退出登录过滤器 -->
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="${shiro.logout.success.url}"/>
+    </bean>
+    
+    <bean id="userDao" class="net.chinacloud.mediator.user.dao.UserDao" parent="mainDao"/>
+    <bean id="roleDao" class="net.chinacloud.mediator.role.dao.RoleDao" parent="mainDao"/>
+</beans>

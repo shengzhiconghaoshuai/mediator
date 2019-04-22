@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <!-- 消息接收监听器用于异步接收消息，用这个就不能配receiver了-->
+
+    <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                 <property name="brokerURL" value="tcp://10.176.20.140:61616"/>
+                 <!-- <property name="brokerURL" value="failover:(tcp://127.0.0.1:61616)"/> -->
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="connectionFactoryA" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                 <property name="brokerURL" value="tcp://10.176.20.140:61616"/>
+                 <!-- <property name="brokerURL" value="failover:(tcp://127.0.0.1:61617)"/> -->
+                 <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <!-- 重发策略 -->
+    <bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
+    	<!-- 最大重发次数 -->
+    	<property name="maximumRedeliveries" value="10"/>
+    	<!-- 间隔时间,单位:毫秒 -->
+    	<property name="redeliveryDelay" value="5000"/>
+    	<!-- 初始间隔时间,单位:毫秒 -->
+    	<property name="initialRedeliveryDelay" value="5000"/>
+    </bean>
+    
+    <!-- 接收业务端处理指令,如商品发布、价格库存更新-->
+    <!-- <bean id="mCommonReceiveQueue" class="org.apache.activemq.command.ActiveMQQueue">
+      <constructor-arg value="MEDIATOR_RECEIVE"/>
+    </bean> -->
+    
+    <!-- mediator端jms消息发送至OMS,如订单、退款、退货等消息 -->
+    <bean id="mSendQueueA" class="org.apache.activemq.command.ActiveMQQueue">
+      <constructor-arg value="testQueue"/>
+    </bean>
+    <bean id="mReceiveQueueA" class="org.apache.activemq.command.ActiveMQQueue">
+      <constructor-arg value="testQueue"/>
+    </bean>
+    
+    <!-- 队列消息生成器 -->
+    <bean id="mSendQueueProducerA" class="net.chinacloud.mediator.jms.JMSQueueProducer">
+        <property name="template" ref="mSendTemplate1"/>
+    </bean>
+    
+    <bean id="mSendTemplate1" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="mSendQueueA"/>
+        <property name="receiveTimeout" value="60000"/>
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+    
+    <bean id="messageReceiver" class="net.chinacloud.mediator.user.MessageReceiver"/>
+    
+    <!-- 转换消息-->
+    <bean id="wcJMSAdapter" class="net.chinacloud.mediator.wcs.jms.WCMessageAdapter"/>
+    <bean id="pureMDPAdapterA" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="messageReceiver"/>
+        <property name="defaultListenerMethod" value="processMsgWithTransaction"/>
+        <property name="messageConverter" ref="wcJMSAdapter"/>
+    </bean>
+	<bean class="org.springframework.jms.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactoryA"/>
+        <property name="destination" ref="mReceiveQueueA"/>
+        <property name="messageListener" ref="pureMDPAdapterA"/>
+        <!-- 消息接收开启事务 -->
+        <property name="sessionTransacted" value="true"/>
+        <!-- <property name="concurrentConsumers" value="2"/> -->
+        
+        <property name="taskExecutor" ref="taskExecutor"/>
+    </bean>
+    
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+    	<!-- 核心线程数,默认为1 -->
+    	<property name="corePoolSize" value="3"/>
+    	<!-- 最大线程数,默认为Integer.MAX_VALUE -->
+    	<property name="maxPoolSize" value="5"/>
+    	<!-- 线程池维护线程所允许的空闲时间,默认为60s -->
+    	<property name="keepAliveSeconds" value="300"/>
+    	<!-- 容纳即将执行的task的队列最大长度,默认为Integer.MAX_VALUE -->
+    	<property name="queueCapacity" value="1200"/>
+    	<!-- 由于超出线程范围和队列容量而使执行被阻塞时所使用的处理程序,线程池对拒绝任务(无线程可用)的处理策略,
+    	目前只支持AbortPolicy、CallerRunsPolicy;默认为后者 -->
+    	<!-- <property name="rejectedExecutionHandler">
+    		<bean class="net.chinacloud.mediator.task.PersistiveTaskRejectionHandler"/>
+    	</property> -->
+    	<!-- 等待所有task执行完再关闭 -->
+    	<property name="waitForTasksToCompleteOnShutdown" value="true"/>
+    	<!-- 关闭前保持task需要的资源10s -->
+    	<property name="awaitTerminationSeconds" value="10"/>
+    </bean>
+</beans>

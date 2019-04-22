@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 数据源,alibaba的druid -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+      <!-- 基本属性 url、user、password -->
+      <property name="url" value="${connection.url}" />
+      <property name="username" value="${connection.username}"/>
+      <property name="password" value="${connection.password}"/>
+
+      <!-- 配置初始化大小、最小、最大 -->
+      <property name="initialSize" value="${druid.initialSize}"/>
+      <property name="minIdle" value="${druid.minIdle}"/> 
+      <property name="maxActive" value="${druid.maxActive}"/>
+
+      <!-- 配置获取连接等待超时的时间 -->
+      <property name="maxWait" value="${druid.maxWait}"/>
+
+      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+      <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+
+      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+      <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+
+      <property name="validationQuery" value="${druid.validationQuery}"/>
+      <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+      <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+      <property name="testOnReturn" value="${druid.testOnReturn}"/>
+
+      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+      <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}"/>
+      <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}"/>
+
+      <!-- 配置监控统计拦截的filters -->
+      <property name="filters" value="${druid.filters}"/>
+      
+      <!-- 开启sql执行日志 -->
+      <property name="proxyFilters">
+          <list>
+              <ref bean="log-filter"/>
+          </list>
+      </property>
+    </bean>
+    
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="statementExecutableSqlLogEnable" value="true" />
+  	</bean>
+  	
+  	<!-- 数据库分页器 -->
+  	<!-- mysql分页 -->
+  	<bean id="pageSqlGenerator" class="net.chinacloud.mediator.dao.dialect.impl.MySqlPageSqlGenerator"/>
+  	<!-- oracle分页 -->
+  	<!-- <bean id="pageSqlGenerator" class="net.chinacloud.mediator.dao.dialect.impl.OraclePageSqlGenerator"/> -->
+  	
+  	<bean id="mainDao" class="net.chinacloud.mediator.dao.DAO" abstract="true">
+  		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+  		<property name="pageSqlGenerator" ref="pageSqlGenerator"/>
+  	</bean>
+    
+    <!-- jdbc template -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    	<constructor-arg index="0" ref="dataSource"></constructor-arg>
+    </bean>
+    
+    <!-- dao 配置 -->
+    <bean id="applicationDao" class="net.chinacloud.mediator.system.application.dao.ApplicationDao" parent="mainDao"/>
+    <bean id="categoryMappingDao" class="net.chinacloud.mediator.dao.CategoryMappingDao" parent="mainDao"/>
+    <bean id="channelAttributeValueMappingDao" class="net.chinacloud.mediator.dao.ChannelAttributeValueMappingDao" parent="mainDao"/>
+    <bean id="productPartnumberMappingDao" class="net.chinacloud.mediator.dao.ProductPartnumberMappingDao" parent="mainDao"/>
+    <bean id="channelDao" class="net.chinacloud.mediator.system.channel.dao.ChannelDao" parent="mainDao"/>
+    <bean id="cronConfigDao" class="net.chinacloud.mediator.system.schedule.dao.CronConfigDao" parent="mainDao"/>
+    <bean id="cronLasttimeDao" class="net.chinacloud.mediator.system.schedule.dao.CronLasttimeDao" parent="mainDao"/>
+    <bean id="taskDao" class="net.chinacloud.mediator.task.dao.TaskDao" parent="mainDao"/>
+    <bean id="taskFailureDao" class="net.chinacloud.mediator.task.dao.TaskFailureDao" parent="mainDao"/>
+    <bean id="taskTemplateDao" class="net.chinacloud.mediator.task.dao.TaskTemplateDao" parent="mainDao"/>
+    <bean id="registryDao" class="net.chinacloud.mediator.system.registry.dao.RegistryDao" parent="mainDao"/>
+    <bean id="repeatOrderDao" class=" net.chinacloud.mediator.dao.RepeatOrderDao" parent="mainDao"/>
+    <!-- 主数据源事务配置 -->
+    <!-- 事务管理器 -->
+    <!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">    
+	    <property name="dataSource" ref="dataSource"/>  
+	</bean>
+	
+	<tx:advice id="mainTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="doTask" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* net.chinacloud.mediator.task..*ListTask.doTask(..))" id="listTask"/>
+		<aop:advisor pointcut-ref="listTask" advice-ref="mainTxAdvice"/>
+	</aop:config> -->
+</beans>
