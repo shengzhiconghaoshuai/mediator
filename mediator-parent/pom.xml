@@ -19,9 +19,10 @@
   	<module>../mediator-web</module>
   	<module>../mediator-wcsPlugin</module>
   	<module>../mediator-jingdongPlugin</module>
-  	<!--<module>../mediator-vipvopPlugin</module> -->
+  	<module>../mediator-vipvopPlugin</module>
   	<module>../mediator-xhsPlugin</module>
   	<module>../mediator-kaolaPlugin</module>
+
   	<!-- <module>../mediator-yintaiPlugin</module>
   	<module>../mediator-yougouPlugin</module>
   	<module>../mediator-yhdPlugin</module> -->

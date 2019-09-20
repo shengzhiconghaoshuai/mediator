@@ -33,6 +33,8 @@
 		<lookup-method name="generateConfirmRefuseResultTask" bean="confirmRefuseResultTask"/>
 		<lookup-method name="generateConfirmReturnResultTask" bean="confirmReturnResultTask"/>
 		<lookup-method name="generateOrderReturnListTask" bean="orderReturnListTask"/>
+		<lookup-method name="generateVipSyscInventoryTask" bean="vipSyscInventoryTask"/>
+		<lookup-method name="generateVipSyscInventoryItemTask" bean="vipSyscInventoryItemTask"/>
 	</bean>
 	
 	<bean id="oXOOrderFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelOXOOrderFacadeClient" parent="abstractClient"/>

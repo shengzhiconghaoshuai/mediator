@@ -13,7 +13,8 @@ public class JitConstants {
 	public static String GET_OCCUPIEDORDER = "GETOCCUPIEDORDER";
 	public static String GET_INVENTORYDEDUCTORDERS = "GETINVENTORYDEDUCTORDERS";
 	public static String SKUUPDATEINVENTORY ="SKUUPDATEINVENTORY";
-	
+	public static String VIP_SYNC_INVENTORY ="VIP_SYNCINVENTORY";
+	public static String VIP_ITEM_SYNC_INVENTORY ="VIP_ITEM_SYNC_INVENTORY";
 	/**唯品会渠道CODE*/
 	public static final String CHANNEL_VIP = "VIP";
 }

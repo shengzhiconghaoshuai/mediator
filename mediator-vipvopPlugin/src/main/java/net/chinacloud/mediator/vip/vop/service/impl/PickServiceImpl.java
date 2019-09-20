@@ -8,6 +8,7 @@ import net.chinacloud.mediator.domain.Application;
 import net.chinacloud.mediator.system.application.service.ApplicationService;
 import net.chinacloud.mediator.task.CommonNotifyPacket;
 import net.chinacloud.mediator.utils.ContextUtil;
+import net.chinacloud.mediator.utils.DateUtil;
 import net.chinacloud.mediator.vip.vop.constants.JitConstants;
 import net.chinacloud.mediator.vip.vop.domain.ConfirmdeliverMsg;
 import net.chinacloud.mediator.vip.vop.domain.CreatePick;
@@ -290,5 +291,29 @@ public class PickServiceImpl extends VopService implements VopPickService{
 		
 		return notifys;
 	}
-	
+
+	@Override
+	public void updateInventory(String sku, Integer quantity, Integer syncMode) {
+		Integer appId  = ContextUtil.get(Constant.APPLICATION_ID);
+		Application app = aApplicationService.getApplicationById(appId);
+		String vendor_id = app.getParam().getVendorId();
+		List<CommonNotifyPacket<CreatePick>> notifys = new ArrayList<CommonNotifyPacket<CreatePick>>();
+		try {
+			vipapis.inventory.UpdateSkuInventoryRequest param=new vipapis.inventory.UpdateSkuInventoryRequest();
+			param.setVendor_id(Integer.valueOf(vendor_id));
+			param.setBarcode(sku);
+			param.setBatch_no(sku+(int)(Math.random()*900)+100);
+			param.setQuantity(quantity);
+			LOGGER.info("开始同步vip的库存更新操作");
+			getVopJITConnector().getInventoryServiceClient().updateInventory(param);
+			System.out.println("开始同步vip的库存更新操作end");
+		} catch (OspException e) {
+			LOGGER.error("开始同步vip的库存更新操作失败",e.getMessage());
+			e.printStackTrace();
+		} catch (VopJitException e) {
+			LOGGER.error("开始同步vip的库存更新操作失败",e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 }

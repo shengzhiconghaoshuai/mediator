@@ -51,10 +51,10 @@
     	<groupId>net.chinacloud.mediator</groupId>
     	<artifactId>mediator-businessLogic</artifactId>
     </dependency>
- 	<!-- <dependency>
+ 	<dependency>
     	<groupId>net.chinacloud.mediator</groupId>
     	<artifactId>mediator-vipvopPlugin</artifactId>
-    </dependency>  -->
+    </dependency>
     <!-- <dependency>
 		<groupId>org.apache.activemq</groupId>
 		<artifactId>activemq-all</artifactId>

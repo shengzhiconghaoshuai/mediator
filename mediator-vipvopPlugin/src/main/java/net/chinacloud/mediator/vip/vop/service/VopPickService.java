@@ -23,4 +23,7 @@ public interface VopPickService {
 	public void confirmDeliver(ConfirmdeliverMsg msg)throws VopJitException;
 	
 	public List<CommonNotifyPacket<CreatePick>> getPickList(String po_no) throws VopJitException;
+
+	//同步vip库存
+	public void updateInventory(String sku,Integer quantity,Integer syncMode);
 }

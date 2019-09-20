@@ -60,9 +60,8 @@ import net.chinacloud.mediator.utils.StringUtils;
 //import net.chinacloud.mediator.vip.vop.domain.PoList;
 
 
-
-
-
+import net.chinacloud.mediator.vip.vop.constants.JitConstants;
+import net.chinacloud.mediator.vip.vop.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -432,42 +431,63 @@ public abstract class WCSTaskAdapter implements TaskAdapter {
 			task.setDataId(product.getOuterProductId());
 			return task;
 		}
-//		else if(MessageActionCode.ACTION_CODE_CREATE_PICK.equals(actionCode)){
-//        	//wcs通知mediator创建Pick
-//        	PoList list = JsonUtil.jsonString2Object(content, PoList.class);
-//        	CommonNotifyPacket<PoList> packet = new CommonNotifyPacket<PoList>(list);
-//        	packet.setType(JitConstants.STATUS_BATCH_CREATE_PICK);
-//        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
-//        	return task;
-//        }else if(MessageActionCode.ACTION_CODE_JIT_CREATEDELIVER.equals(actionCode)){
-//        	//wc通知jit，create_deliver
-//        	CreatedeliverMsg msg = JsonUtil.jsonString2Object(content, CreatedeliverMsg.class);
-//        	CommonNotifyPacket<CreatedeliverMsg> packet = new CommonNotifyPacket<CreatedeliverMsg>(msg);
-//    		packet.setType("STATUS_CREATE_DELIVER");
-//        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
-//        	return task;
-//        }else if(MessageActionCode.ACTION_CODE_IMPORTDELIVER_DETAIL.equals(actionCode)){
-//        	//wms实际发货import_deliver_detail
-//        	ImportDeliverDetailMsg msg  = JsonUtil.jsonString2Object(content, ImportDeliverDetailMsg.class);
-//        	CommonNotifyPacket<ImportDeliverDetailMsg> packet = new CommonNotifyPacket<ImportDeliverDetailMsg>(msg);
-//    		packet.setType("STATUS_IMPORT_DELIVER_DETAIL");
-//        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
-//        	return task;
-//        }else if(MessageActionCode.ACTION_CODE_CONFIRMDELIVER_JIT.equals(actionCode)){
-//        	//确认出仓
-//        	ConfirmdeliverMsg msg = JsonUtil.jsonString2Object(content, ConfirmdeliverMsg.class);
-//        	CommonNotifyPacket<ConfirmdeliverMsg> packet = new CommonNotifyPacket<ConfirmdeliverMsg>(msg);
-//    		packet.setType("STATUS_CONFIRMDELIVER_JIT");
-//        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
-//        	return task;
-//        }else if (MessageActionCode.ACTION_CODE_GET_INVENTORYDEDUCTORDERS.equals(actionCode)) {
-//			LOGGER.info("generate getInventoryDeductOrders task");
-//			PickBean pickBean = JsonUtil.jsonString2Object(content,PickBean.class);
-//			CommonNotifyPacket<PickBean> packet = new CommonNotifyPacket<PickBean>(pickBean);
-//			packet.setType(JitConstants.GET_INVENTORYDEDUCTORDERS);
-//			task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
-//			return task;
-//		}
+
+		/*vip start*/
+		else if(MessageActionCode.ACTION_CODE_CREATE_PICK.equals(actionCode)){
+			/*
+			* oms 创建拣货单调度
+			* 发送po档期信息，mediator接收创建拣货单
+			* 将创建后的结果（拣货单明细）发送oms
+			* */
+        	PoList list = JsonUtil.jsonString2Object(content, PoList.class);
+        	CommonNotifyPacket<PoList> packet = new CommonNotifyPacket<PoList>(list);
+        	packet.setType(JitConstants.STATUS_BATCH_CREATE_PICK);
+        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+        	return task;
+        }else if(MessageActionCode.ACTION_CODE_JIT_CREATEDELIVER.equals(actionCode)){
+			/*
+			* 接收oms传递过来的出仓单数据
+			* 调用vip出仓单创建接口，创建出仓单
+			* */
+        	//wc通知jit，create_deliver
+        	CreatedeliverMsg msg = JsonUtil.jsonString2Object(content, CreatedeliverMsg.class);
+        	CommonNotifyPacket<CreatedeliverMsg> packet = new CommonNotifyPacket<CreatedeliverMsg>(msg);
+    		packet.setType("STATUS_CREATE_DELIVER");
+        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+        	return task;
+        }else if(MessageActionCode.ACTION_CODE_IMPORTDELIVER_DETAIL.equals(actionCode)){
+        	//wms实际发货import_deliver_detail
+        	ImportDeliverDetailMsg msg  = JsonUtil.jsonString2Object(content, ImportDeliverDetailMsg.class);
+        	CommonNotifyPacket<ImportDeliverDetailMsg> packet = new CommonNotifyPacket<ImportDeliverDetailMsg>(msg);
+    		packet.setType("STATUS_IMPORT_DELIVER_DETAIL");
+        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+        	return task;
+        }else if(MessageActionCode.ACTION_CODE_CONFIRMDELIVER_JIT.equals(actionCode)){
+        	//确认出仓
+        	ConfirmdeliverMsg msg = JsonUtil.jsonString2Object(content, ConfirmdeliverMsg.class);
+        	CommonNotifyPacket<ConfirmdeliverMsg> packet = new CommonNotifyPacket<ConfirmdeliverMsg>(msg);
+    		packet.setType("STATUS_CONFIRMDELIVER_JIT");
+        	task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+        	return task;
+        }else if (MessageActionCode.ACTION_CODE_GET_INVENTORYDEDUCTORDERS.equals(actionCode)) {
+			LOGGER.info("generate getInventoryDeductOrders task");
+			PickBean pickBean = JsonUtil.jsonString2Object(content,PickBean.class);
+			CommonNotifyPacket<PickBean> packet = new CommonNotifyPacket<PickBean>(pickBean);
+			packet.setType(JitConstants.GET_INVENTORYDEDUCTORDERS);
+			task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+			return task;
+		}else if (MessageActionCode.ACTION_CODE_VIP_SYNINVENTORY.equals(actionCode)) {
+			LOGGER.info("generate  task");
+
+			VipInventoryUpList list = JsonUtil.jsonString2Object(content, VipInventoryUpList.class);
+			CommonNotifyPacket<VipInventoryUpList> packet = new CommonNotifyPacket<VipInventoryUpList>(list);
+			packet.setType(JitConstants.VIP_SYNC_INVENTORY);
+			task = taskManager.generateTask(JitConstants.CHANNEL_VIP, packet);
+			return task;
+		}
+
+/*vip end*/
+
 		else if (MessageActionCode.ACTION_CODE_EXCHANGE_CONSIGNGOODS.equals(actionCode)) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("generate Exchange Deliver Task" );

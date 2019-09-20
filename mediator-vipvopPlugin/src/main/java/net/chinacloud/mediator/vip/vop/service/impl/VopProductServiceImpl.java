@@ -76,16 +76,18 @@ public class VopProductServiceImpl extends VopService implements VopProductServi
 		Application application = applicationService.getApplicationById(applicationId);
 		List<String> areaCodes = new ArrayList<String>();
 		areaCodes.add("101");
-		
-		InventoryUpdateRequest request = new InventoryUpdateRequest();
+		vipapis.inventory.UpdateSkuInventoryRequest request=new 	vipapis.inventory.UpdateSkuInventoryRequest();
+		//InventoryUpdateRequest request = new InventoryUpdateRequest();
 		request.setBarcode(sku.getOuterSkuId());
-		request.setCooperation_no(11424004);
+	//	request.setCooperation_no(11424004);
 		request.setQuantity(sku.getQtyCanSell().intValue());
 		request.setVendor_id(Integer.valueOf(application.getParam().getVendorId()));
 		request.setBatch_no(UUID.randomUUID().toString().substring(0, 20));
-		request.setArea_codes(areaCodes);
+		//request.setArea_codes(areaCodes);
 		try {
-			getVopJITConnector().getOmniInventoryServiceClient().updateStoreInventory(request);
+			//修改新的请求更新库存接口
+			//getVopJITConnector().getOmniInventoryServiceClient().updateStoreInventory(request);
+			getVopJITConnector().getInventoryServiceClient().updateInventory(request);
 		} catch (VopJitException e) {
 			throw new ProductException(e.getMessage());
 		} catch (OspException e) {

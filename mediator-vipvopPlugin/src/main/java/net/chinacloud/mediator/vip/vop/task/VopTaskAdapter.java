@@ -16,14 +16,7 @@ import net.chinacloud.mediator.task.product.inventory.SkuInventoryUpdateTask;
 import net.chinacloud.mediator.utils.CollectionUtil;
 import net.chinacloud.mediator.utils.StringUtils;
 import net.chinacloud.mediator.vip.vop.constants.JitConstants;
-import net.chinacloud.mediator.vip.vop.domain.ConfirmdeliverMsg;
-import net.chinacloud.mediator.vip.vop.domain.CreatePick;
-import net.chinacloud.mediator.vip.vop.domain.CreatedeliverMsg;
-import net.chinacloud.mediator.vip.vop.domain.ImportDeliverDetailMsg;
-import net.chinacloud.mediator.vip.vop.domain.PickBean;
-import net.chinacloud.mediator.vip.vop.domain.PoBean;
-import net.chinacloud.mediator.vip.vop.domain.PoList;
-import net.chinacloud.mediator.vip.vop.domain.PoMessage;
+import net.chinacloud.mediator.vip.vop.domain.*;
 import net.chinacloud.mediator.vip.vop.task.BatchCreatePickTask;
 
 import org.slf4j.Logger;
@@ -138,6 +131,11 @@ public abstract class VopTaskAdapter extends AbstractTaskAdapter{
 	public abstract ConfirmReturnResultTask generateConfirmReturnResultTask();
 	/**获取客退列表*/
 	public abstract OrderReturnListTask generateOrderReturnListTask();
+
+	public abstract VipSyscInventoryTask  generateVipSyscInventoryTask();
+	public abstract VipSyscInventoryItemTask  generateVipSyscInventoryItemTask();
+
+
 	
 	@Override
 	public <T> Task generateServiceTask(CommonNotifyPacket<T> packet) {
@@ -216,6 +214,9 @@ public abstract class VopTaskAdapter extends AbstractTaskAdapter{
 			task.setData(msg);
 			task.setDataId(String.valueOf(System.nanoTime()));
 		}
+		/*
+		* vip库存同步oms的sku
+		* */
 		if("skuUpdateInventory".equals(status)) {	//sku 库存同步
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("generate Sku Inventory Update Task");
@@ -312,6 +313,30 @@ public abstract class VopTaskAdapter extends AbstractTaskAdapter{
 			task.getContext().put(Constant.SCHEDULE_PARAM_STATUS, refund.getStatus());
 			task.setDataId(refund.getStatus());
 		}
+		/*
+		* 同步vip库存parent task
+		* */
+		if(JitConstants.VIP_SYNC_INVENTORY.equals(status)){
+			LOGGER.info("--同步vip parent task VIP_SYNC_INVENTORY库存执行--");
+			task = generateVipSyscInventoryTask();
+			task.setDataId( String.valueOf(System.nanoTime()));
+			VipInventoryUpList list = (VipInventoryUpList) packet.getMessage();
+			task.setData(list);
+		}
+		/*
+		* 同步vip库存 sub task
+		* */
+		if(JitConstants.VIP_ITEM_SYNC_INVENTORY.equals(status)){
+			LOGGER.info("--同步vip item库存执行--");
+			//task = SpringUtil.getBean(CreatePickTask.class);
+			//task = generateCreatePickTask();
+			task = generateVipSyscInventoryItemTask();
+			VipInventoryMessage vipInventoryMessage = (VipInventoryMessage)packet.getMessage();
+			task.setData(vipInventoryMessage);
+			task.setDataId( String.valueOf(System.nanoTime()));
+		}
+
+
 		return task;
 	}
 

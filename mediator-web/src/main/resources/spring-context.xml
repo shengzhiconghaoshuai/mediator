@@ -99,7 +99,7 @@
     <bean id="productClient" class="net.chinacloud.mediator.translator.ChannelProductFacadeClient" parent="abstractClient"/>
     
     <bean id="exchangeClient" class="net.chinacloud.mediator.translator.ChannelExchangeFacadeClient" parent="abstractClient"/>
-    <!-- 
+
     <bean id="vipimportClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPimportdeliverFacadeClient" parent="abstractClient"/>
     
     <bean id="vipdeliverClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPdeliverFacadeClient" parent="abstractClient"/>
@@ -113,7 +113,7 @@
     <bean id="vipOccupiedOrderFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPOccupiedOrderFacadeClient" parent="abstractClient"/>
     
     <bean id="vipPoOrdersFacadeClient" class="net.chinacloud.mediator.vip.vop.client.ChannelVIPPoOrdersFacadeClient" parent="abstractClient"/>
-     -->
+
     <bean id="registry" class="net.chinacloud.mediator.system.registry.impl.MapRegistry"></bean>
     
     <bean id="multipartResolver"
