@@ -95,7 +95,8 @@
     <jms.version>1.1</jms.version>
     <activemq.version>5.4.3</activemq.version>
     <webspheremq.version>1.0.0</webspheremq.version>
-    <osp.sdk.version>20180903153806</osp.sdk.version>
+<!--    <osp.sdk.version>20180903153806</osp.sdk.version>-->
+    <osp.sdk.version>20190918112924</osp.sdk.version>
     <jingdong.sdk.version>2.3</jingdong.sdk.version>
     <jackson-core-asl.sdk.version>1.0</jackson-core-asl.sdk.version>
     <jackson-mapper-asl.version>1.0</jackson-mapper-asl.version>
@@ -341,11 +342,11 @@
  			<artifactId>vop-sdk</artifactId>
   			<version>${osp.sdk.version}</version>
 		</dependency>
-		<dependency>
-  			<groupId>vipshop</groupId>
- 			<artifactId>vop-sdk-sources</artifactId>
-  			<version>${osp.sdk.version}</version>
-		</dependency>
+		<!--<dependency>-->
+  			<!--<groupId>vipshop</groupId>-->
+ 			<!--<artifactId>vop-sdk-sources</artifactId>-->
+  			<!--<version>${osp.sdk.version}</version>-->
+		<!--</dependency>-->
 
 		<!-- 京东SDK -->
 		<dependency>

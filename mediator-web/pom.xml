@@ -73,11 +73,12 @@
         <!--<groupId>mysql</groupId>-->
         <!--<artifactId>mysql-connector-java</artifactId>-->
     <!--</dependency>-->
-    <!-- oracle驱动 -->
-    <!--<dependency>-->
-	  <!--<groupId>com.oracle</groupId>-->
-	  <!--<artifactId>ojdbc6</artifactId>-->
-	<!--</dependency>-->
+      <!-- oracle驱动 -->
+      <dependency>
+          <groupId>com.oracle</groupId>
+          <artifactId>ojdbc6</artifactId>
+          <version>10.2.0.1.0</version>
+      </dependency>
     <!-- jms -->
      <dependency>
 		<groupId>jms</groupId>

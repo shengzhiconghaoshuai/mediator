@@ -37,10 +37,10 @@
   			<groupId>vipshop</groupId>
  			<artifactId>vop-sdk</artifactId>
 		</dependency>
-		<dependency>
-  			<groupId>vipshop</groupId>
- 			<artifactId>vop-sdk-sources</artifactId>
-		</dependency>
+		<!--<dependency>-->
+  			<!--<groupId>vipshop</groupId>-->
+ 			<!--<artifactId>vop-sdk-sources</artifactId>-->
+		<!--</dependency>-->
 		
 		<dependency>
     	<groupId>net.chinacloud.mediator</groupId>

@@ -149,11 +149,21 @@ public class PickServiceImpl extends VopService implements VopPickService{
 			String warehouseStr  = createdeliverData.getDelivery_warehouse(); 
 			vipapis.delivery.CreateDeliveryResponse resp;
 			try {
-				resp = getVopJITConnector().getVopJitConnector().createDelivery(Integer.valueOf(venderId), createdeliverData.getPo_no(), createdeliverData.getDelivery_no(),
-						vipapis.common.Warehouse.valueOf(warehouseStr), null, createdeliverData.getArrival_time(),createdeliverData.getDelivery_method() , createdeliverData.getCarrier(), null, null, 
-						createdeliverData.getDriver_tel(), null, pageNo, default_page_size, createdeliverData.getDelivery_method(), null,createdeliverData.getCarrierCode());
+//				resp = getVopJITConnector().getVopJitConnector().createDelivery(Integer.valueOf(venderId), createdeliverData.getPo_no(), createdeliverData.getDelivery_no(),
+//						vipapis.common.Warehouse.valueOf(warehouseStr), null, createdeliverData.getArrival_time(),createdeliverData.getDelivery_method() , createdeliverData.getCarrier(), null, null,
+//						createdeliverData.getDriver_tel(), null, pageNo, default_page_size, createdeliverData.getDelivery_method(), null,createdeliverData.getCarrierCode());
+//				aJITDeliveryBean.setDelivery_id(resp.getDelivery_id());
+//				aJITDeliveryBean.setStorage_no(resp.getStorage_no());
+
+				//修改为新版sdk
+				resp = getVopJITConnector().getVopJitConnector().createDelivery(
+						Integer.valueOf(venderId),createdeliverData.getPo_no(),createdeliverData.getDelivery_no(),vipapis.common.Warehouse.valueOf(warehouseStr),
+						null,createdeliverData.getArrival_time(),null,createdeliverData.getCarrier(),createdeliverData.getDriver_tel(),null,
+						createdeliverData.getDriver_tel(),null,pageNo, default_page_size,createdeliverData.getDelivery_method(),null,createdeliverData.getCarrierCode(),null );
 				aJITDeliveryBean.setDelivery_id(resp.getDelivery_id());
 				aJITDeliveryBean.setStorage_no(resp.getStorage_no());
+
+
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				throw new VopJitException("createDelivery error:"

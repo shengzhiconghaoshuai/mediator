@@ -84,6 +84,8 @@ public class VopProductServiceImpl extends VopService implements VopProductServi
 		request.setVendor_id(Integer.valueOf(application.getParam().getVendorId()));
 		request.setBatch_no(UUID.randomUUID().toString().substring(0, 20));
 		//request.setArea_codes(areaCodes);
+//		LOGGER.info("暂停更新唯品会库存....");
+
 		try {
 			//修改新的请求更新库存接口
 			//getVopJITConnector().getOmniInventoryServiceClient().updateStoreInventory(request);
