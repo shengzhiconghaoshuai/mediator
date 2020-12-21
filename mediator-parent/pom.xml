@@ -112,7 +112,7 @@
     <apache.version>3.9</apache.version>
     <mediator.version>1.0.0</mediator.version>
     <commons-fileupload.version>1.2.2</commons-fileupload.version>
-    <xstream.version>1.4.3</xstream.version>
+    <xstream.version>1.4.15</xstream.version>
   </properties>
 
   <dependencyManagement>
