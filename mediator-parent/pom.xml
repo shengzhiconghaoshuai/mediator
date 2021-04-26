@@ -105,7 +105,7 @@
     <jackson.version>2.4.0</jackson.version>
     <dom4j.version>1.6.1</dom4j.version>
     <mail.version>1.4</mail.version>
-    <common.io.version>2.3</common.io.version>
+    <common.io.version>2.7</common.io.version>
     <commons-lang3.version>3.1</commons-lang3.version>
     <shiro.version>1.2.2</shiro.version>
     <top.schema.version>20150228</top.schema.version>
