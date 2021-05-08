@@ -107,7 +107,7 @@
     <mail.version>1.4</mail.version>
     <common.io.version>2.3</common.io.version>
     <commons-lang3.version>3.1</commons-lang3.version>
-    <shiro.version>1.2.2</shiro.version>
+    <shiro.version>1.6.0</shiro.version>
     <top.schema.version>20150228</top.schema.version>
     <apache.version>3.9</apache.version>
     <mediator.version>1.0.0</mediator.version>
