@@ -100,7 +100,7 @@
     <jingdong.sdk.version>2.3</jingdong.sdk.version>
     <jackson-core-asl.sdk.version>1.0</jackson-core-asl.sdk.version>
     <jackson-mapper-asl.version>1.0</jackson-mapper-asl.version>
-    <httpclient.version>4.3.6</httpclient.version>
+    <httpclient.version>4.5.13</httpclient.version>
     <gson.version>2.3.1</gson.version>
     <jackson.version>2.4.0</jackson.version>
     <dom4j.version>1.6.1</dom4j.version>
