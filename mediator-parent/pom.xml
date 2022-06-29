@@ -109,7 +109,7 @@
     <commons-lang3.version>3.1</commons-lang3.version>
     <shiro.version>1.2.2</shiro.version>
     <top.schema.version>20150228</top.schema.version>
-    <apache.version>3.9</apache.version>
+    <apache.version>4.1.1</apache.version>
     <mediator.version>1.0.0</mediator.version>
     <commons-fileupload.version>1.2.2</commons-fileupload.version>
     <xstream.version>1.4.3</xstream.version>
